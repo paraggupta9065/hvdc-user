@@ -27,7 +27,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/onboarding/
-    - assets/profile_leading_icons/
+    - assets/app_icons/
     - assets/
 
   
