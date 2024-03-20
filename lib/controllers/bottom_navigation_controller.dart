@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hvdc_user/screens/book_apointment/book_apointment_page.dart';
 import 'package:hvdc_user/screens/homepage.dart';
 import 'package:hvdc_user/screens/profile_screens/profile_page.dart';
 
@@ -9,7 +10,7 @@ class BottomNavigationController extends GetxController {
 
   List pages = [
     Homepage(),
-    Placeholder(),
+    AppointmentBookingScreen(),
     Placeholder(),
     ProfilePage()
   ];

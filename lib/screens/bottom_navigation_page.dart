@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hvdc_user/controllers/bottom_navigation_controller.dart';
 import 'package:hvdc_user/utils/colors.dart';
 
+// ignore: must_be_immutable
 class BottomNavigator extends StatelessWidget {
   BottomNavigator({super.key});
 
