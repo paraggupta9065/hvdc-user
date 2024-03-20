@@ -19,11 +19,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: MaterialApp.router(
-        title: 'Flutter Demo',
+        title: 'HVDC',
         theme: themeData,
-        routerDelegate: router.routerDelegate,
-        routeInformationParser: router.routeInformationParser,
-        routeInformationProvider: router.routeInformationProvider,
+        routerConfig: router,
       ),
     );
   }

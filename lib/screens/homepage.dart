@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hvdc_user/utils/articles.dart';
 import 'package:hvdc_user/utils/colors.dart';
 import 'package:hvdc_user/utils/style.dart';
 
@@ -15,34 +16,26 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  PageController pageController = PageController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: const Padding(
-          padding: EdgeInsets.all(20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Header(),
-                SizedBox(height: 20),
-                Banner(),
-                SizedBox(height: 20),
-                Cards(),
-                SizedBox(height: 20),
-                UploadPrescription(),
-                SizedBox(height: 20),
-                NearbyLabs()
-              ],
-            ),
-          ),
+        body: PageView(
+          controller: pageController,
+          children: const [
+            MainHome(),
+            Articles(),
+          ],
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           selectedItemColor: kGreen,
           unselectedItemColor: kGrey,
           onTap: (value) {
-            print(value);
+            pageController.animateToPage(value,
+                duration: const Duration(milliseconds: 700),
+                curve: Curves.ease);
           },
           items: const [
             BottomNavigationBarItem(
@@ -69,6 +62,32 @@ class _HomepageState extends State<Homepage> {
               ),
               label: "Profile",
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class MainHome extends StatelessWidget {
+  const MainHome({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.all(20.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Header(),
+            SizedBox(height: 20),
+            Banner(),
+            SizedBox(height: 20),
+            Cards(),
+            SizedBox(height: 20),
+            UploadPrescription(),
+            SizedBox(height: 20),
+            NearbyLabs()
           ],
         ),
       ),

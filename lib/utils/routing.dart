@@ -10,7 +10,7 @@ import 'package:hvdc_user/utils/articles.dart';
 
 // GoRouter configuration
 final router = GoRouter(
-  initialLocation: "/home",
+  initialLocation: "/",
   routes: [
     GoRoute(
       path: '/sign-up',
