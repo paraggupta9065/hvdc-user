@@ -28,42 +28,40 @@ class _HomepageState extends State<Homepage> {
             Articles(),
           ],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: kGreen,
-          unselectedItemColor: kGrey,
-          onTap: (value) {
-            pageController.animateToPage(value,
-                duration: const Duration(milliseconds: 700),
-                curve: Curves.ease);
-          },
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(
-                CupertinoIcons.house,
-              ),
-              label: "Home",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                CupertinoIcons.calendar,
-              ),
-              label: "Booking",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                CupertinoIcons.doc_plaintext,
-              ),
-              label: "Articles",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                CupertinoIcons.person,
-              ),
-              label: "Profile",
-            ),
-          ],
-        ),
+        // bottomNavigationBar: BottomNavigationBar(
+        //   type: BottomNavigationBarType.fixed,
+        //   selectedItemColor: kGreen,
+        //   unselectedItemColor: kGrey,
+        //   onTap: (value) {
+        //     print(value);
+        //   },
+        //   items: const [
+        //     BottomNavigationBarItem(
+        //       icon: Icon(
+        //         CupertinoIcons.house,
+        //       ),
+        //       label: "Home",
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Icon(
+        //         CupertinoIcons.calendar,
+        //       ),
+        //       label: "Booking",
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Icon(
+        //         CupertinoIcons.doc_plaintext,
+        //       ),
+        //       label: "Articles",
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Icon(
+        //         CupertinoIcons.person,
+        //       ),
+        //       label: "Profile",
+        //     ),
+        //   ],
+        // ),
       ),
     );
   }
