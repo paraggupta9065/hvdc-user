@@ -1,11 +1,9 @@
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hvdc_user/utils/colors.dart';
-import 'package:hvdc_user/utils/style.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -37,40 +35,40 @@ class _HomepageState extends State<Homepage> {
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: kGreen,
-          unselectedItemColor: kGrey,
-          onTap: (value) {
-            print(value);
-          },
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(
-                CupertinoIcons.house,
-              ),
-              label: "Home",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                CupertinoIcons.calendar,
-              ),
-              label: "Booking",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                CupertinoIcons.doc_plaintext,
-              ),
-              label: "Articles",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                CupertinoIcons.person,
-              ),
-              label: "Profile",
-            ),
-          ],
-        ),
+        // bottomNavigationBar: BottomNavigationBar(
+        //   type: BottomNavigationBarType.fixed,
+        //   selectedItemColor: kGreen,
+        //   unselectedItemColor: kGrey,
+        //   onTap: (value) {
+        //     print(value);
+        //   },
+        //   items: const [
+        //     BottomNavigationBarItem(
+        //       icon: Icon(
+        //         CupertinoIcons.house,
+        //       ),
+        //       label: "Home",
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Icon(
+        //         CupertinoIcons.calendar,
+        //       ),
+        //       label: "Booking",
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Icon(
+        //         CupertinoIcons.doc_plaintext,
+        //       ),
+        //       label: "Articles",
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Icon(
+        //         CupertinoIcons.person,
+        //       ),
+        //       label: "Profile",
+        //     ),
+        //   ],
+        // ),
       ),
     );
   }

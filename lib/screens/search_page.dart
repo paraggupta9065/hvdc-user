@@ -1,13 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:go_router/go_router.dart';
-
 import '../utils/card.dart';
 import '../utils/colors.dart';
 import '../utils/style.dart';
-import 'homepage.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});

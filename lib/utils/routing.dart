@@ -1,10 +1,12 @@
 import 'package:go_router/go_router.dart';
 import 'package:hvdc_user/screens/auth/signup.dart';
 import 'package:hvdc_user/screens/book_a_test.dart';
+import 'package:hvdc_user/screens/bottom_navigation_page.dart';
 import 'package:hvdc_user/screens/cart.dart';
-import 'package:hvdc_user/screens/homepage.dart';
 import 'package:hvdc_user/screens/notification.dart';
 import 'package:hvdc_user/screens/onboarding/onboarding.dart';
+import 'package:hvdc_user/screens/profile_screens/profile_page.dart';
+import 'package:hvdc_user/screens/profile_screens/test_booking_screen.dart';
 import 'package:hvdc_user/screens/search_page.dart';
 import 'package:hvdc_user/utils/articles.dart';
 
@@ -19,7 +21,17 @@ final router = GoRouter(
     GoRoute(path: '/', builder: (context, state) => const Onbording(), routes: [
       GoRoute(
         path: 'home',
-        builder: (context, state) => const Homepage(),
+        builder: (context, state) => BottomNavigator(),
+      ),
+      GoRoute(
+        path: 'profile',
+        builder: (context, state) => ProfilePage(),
+        routes: [
+          GoRoute(
+            path: 'test-booking', // Removed leading '/' from nested route path
+            builder: (context, state) => TestBookingScreen(),
+          ),
+        ],
       ),
       GoRoute(
         path: 'search',
