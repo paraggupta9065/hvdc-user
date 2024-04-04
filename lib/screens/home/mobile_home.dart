@@ -1,94 +1,97 @@
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hvdc_user/utils/articles.dart';
-import 'package:hvdc_user/utils/colors.dart';
-import 'package:hvdc_user/utils/style.dart';
 
-class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+import '../../controllers/article_controller.dart';
+import '../../controllers/auth_controller.dart';
+import '../../controllers/homepage_controller.dart';
+import '../../utils/articles.dart';
+import '../../utils/colors.dart';
+import '../../utils/urls.dart';
+
+class MobileHome extends StatefulWidget {
+  const MobileHome({super.key});
 
   @override
-  State<Homepage> createState() => _HomepageState();
+  State<MobileHome> createState() => MobileHomeState();
 }
 
-class _HomepageState extends State<Homepage> {
-  PageController pageController = PageController();
+class MobileHomeState extends State<MobileHome> {
+  final HomepageController homepageController = Get.put(HomepageController());
+
+  final ArticleController articleController = Get.put(ArticleController());
+  @override
+  void initState() {
+    articleController.initArticles();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: PageView(
-          controller: pageController,
-          children: const [
-            MainHome(),
-            Articles(),
-          ],
-        ),
-        // bottomNavigationBar: BottomNavigationBar(
-        //   type: BottomNavigationBarType.fixed,
-        //   selectedItemColor: kGreen,
-        //   unselectedItemColor: kGrey,
-        //   onTap: (value) {
-        //     print(value);
-        //   },
-        //   items: const [
-        //     BottomNavigationBarItem(
-        //       icon: Icon(
-        //         CupertinoIcons.house,
-        //       ),
-        //       label: "Home",
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Icon(
-        //         CupertinoIcons.calendar,
-        //       ),
-        //       label: "Booking",
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Icon(
-        //         CupertinoIcons.doc_plaintext,
-        //       ),
-        //       label: "Articles",
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Icon(
-        //         CupertinoIcons.person,
-        //       ),
-        //       label: "Profile",
-        //     ),
-        //   ],
-        // ),
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Obx(
+        () => homepageController.isLoading.value
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Header(),
+                    const SizedBox(height: 20),
+                    Banner(),
+                    const SizedBox(height: 20),
+                    const Cards(),
+                    const SizedBox(height: 20),
+                    const UploadPrescription(),
+                    const SizedBox(height: 20),
+                    const NearbyLabs(),
+                    const SizedBox(height: 20),
+                    trendingArticle(),
+                  ],
+                ),
+              ),
       ),
     );
   }
-}
 
-class MainHome extends StatelessWidget {
-  const MainHome({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(20.0),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Header(),
-            SizedBox(height: 20),
-            Banner(),
-            SizedBox(height: 20),
-            Cards(),
-            SizedBox(height: 20),
-            UploadPrescription(),
-            SizedBox(height: 20),
-            NearbyLabs()
-          ],
+  Widget trendingArticle() {
+    return Column(
+      children: [
+        const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Text(
+            'Trending',
+            style: TextStyle(
+              color: Color(0xFF333333),
+              fontSize: 16,
+            ),
+          ),
+          Text(
+            'See All',
+            style: TextStyle(
+              color: Color(0xFF333333),
+              fontSize: 14,
+            ),
+          ),
+        ]),
+        const SizedBox(height: 20),
+        SizedBox(
+          width: Get.width,
+          height: 200,
+          child: ListView.builder(
+            itemCount: articleController.trandingPosts.length,
+            shrinkWrap: true,
+            physics: const ScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (BuildContext context, int index) {
+              return ArticleCard(
+                post: articleController.trandingPosts[index],
+              );
+            },
+          ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -292,8 +295,9 @@ class CircularCard extends StatelessWidget {
       onTap: onTap,
       child: Column(
         children: [
-          const CircleAvatar(
+          CircleAvatar(
             radius: 35,
+            backgroundImage: NetworkImage(baseUrl + image),
           ),
           const SizedBox(height: 10),
           Text(
@@ -313,9 +317,10 @@ class CircularCard extends StatelessWidget {
 }
 
 class Banner extends StatelessWidget {
-  const Banner({
+  Banner({
     super.key,
   });
+  final HomepageController homepageController = Get.put(HomepageController());
 
   @override
   Widget build(BuildContext context) {
@@ -323,17 +328,18 @@ class Banner extends StatelessWidget {
       children: [
         SizedBox(
           height: 180,
-          child: PageView.builder(
-            itemCount: 3,
-            itemBuilder: (context, index) => Container(
-              width: double.infinity,
-              height: 180,
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: ListView.builder(
+              itemCount: homepageController.banners.length,
+              itemBuilder: (context, index) => SizedBox(
+                width: double.infinity,
+                height: 180,
+                child: Image.network(
+                  baseUrl + homepageController.banners[index].image,
+                  fit: BoxFit.cover,
                 ),
               ),
-              child: Image.asset("assets/banner.png"),
             ),
           ),
         ),
@@ -360,9 +366,10 @@ class Banner extends StatelessWidget {
 }
 
 class Header extends StatelessWidget {
-  const Header({
+  Header({
     super.key,
   });
+  final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -393,10 +400,12 @@ class Header extends StatelessWidget {
                             height: 48,
                             clipBehavior: Clip.antiAlias,
                             decoration: ShapeDecoration(
-                              image: const DecorationImage(
+                              image: DecorationImage(
                                 image: NetworkImage(
-                                    "https://via.placeholder.com/48x48"),
-                                fit: BoxFit.fill,
+                                  authController.user?.profilePic ??
+                                      "https://www.belizeplanners.org/wp-content/uploads/2016/01/male-placeholder.jpg",
+                                ),
+                                fit: BoxFit.cover,
                               ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(200),
@@ -409,9 +418,9 @@ class Header extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'Hello Sharma',
-                                style: TextStyle(
+                              Text(
+                                'Hello ${authController.user?.name}',
+                                style: const TextStyle(
                                   color: Color(0x99666666),
                                   fontSize: 16,
                                   fontFamily: 'Raleway',

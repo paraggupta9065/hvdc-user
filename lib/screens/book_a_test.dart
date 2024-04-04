@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-
-import '../utils/card.dart';
+import 'package:hvdc_user/controllers/homepage_controller.dart';
+import '../models/category.dart';
 import '../utils/colors.dart';
 import '../utils/style.dart';
-import 'homepage.dart';
-import 'notification.dart';
+import 'home/homepage.dart';
+import 'home/mobile_home.dart';
 
 class BookATest extends StatefulWidget {
   const BookATest({super.key});
@@ -18,6 +17,7 @@ class BookATest extends StatefulWidget {
 }
 
 class _BookATestState extends State<BookATest> {
+  HomepageController homepageController = Get.put(HomepageController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -65,88 +65,38 @@ class _BookATestState extends State<BookATest> {
                 ],
               ),
               const SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  CircularCard(
-                    image: "",
-                    text: "Book A Test",
-                    onTap: () {},
-                  ),
-                  CircularCard(
-                    image: "",
-                    text: "Lab Test",
-                    onTap: () => {},
-                  ),
-                  CircularCard(
-                    image: "",
-                    text: "X-ray Scan",
-                    onTap: () {},
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  CircularCard(
-                    image: "",
-                    text: "Book A Test",
-                    onTap: () {},
-                  ),
-                  CircularCard(
-                    image: "",
-                    text: "Lab Test",
-                    onTap: () => {},
-                  ),
-                  CircularCard(
-                    image: "",
-                    text: "X-ray Scan",
-                    onTap: () {},
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  CircularCard(
-                    image: "",
-                    text: "Book A Test",
-                    onTap: () {},
-                  ),
-                  CircularCard(
-                    image: "",
-                    text: "Lab Test",
-                    onTap: () => {},
-                  ),
-                  CircularCard(
-                    image: "",
-                    text: "X-ray Scan",
-                    onTap: () {},
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  CircularCard(
-                    image: "",
-                    text: "Book A Test",
-                    onTap: () {},
-                  ),
-                  CircularCard(
-                    image: "",
-                    text: "Lab Test",
-                    onTap: () => {},
-                  ),
-                  CircularCard(
-                    image: "",
-                    text: "X-ray Scan",
-                    onTap: () {},
-                  ),
-                ],
+              FutureBuilder(
+                future: homepageController.getCategories(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  List<Category> categories = homepageController.categories;
+
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                    ),
+                    itemCount: categories.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      Category category = categories[index];
+                      return CircularCard(
+                        image: category.image,
+                        text: category.categoryName,
+                        onTap: () {
+                          context.push(
+                              "/tests?category_id=${category.id}&category_name=${category.categoryName}");
+                        },
+                      );
+                    },
+                  );
+                },
               ),
             ],
           ),

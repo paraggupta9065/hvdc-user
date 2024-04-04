@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:hvdc_user/screens/book_a_test.dart';
-import 'package:hvdc_user/screens/cart.dart';
-import 'package:hvdc_user/screens/search_page.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-import 'screens/notification.dart';
 import 'utils/routing.dart';
 import 'utils/style.dart';
 
-void main() {
+void main() async {
+  await init();
   runApp(const MyApp());
+}
+
+init() async {
+  await Hive.initFlutter();
+  await Hive.openBox("user");
 }
 
 class MyApp extends StatelessWidget {

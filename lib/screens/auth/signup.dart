@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hvdc_user/controllers/auth_controller.dart';
 import 'package:hvdc_user/utils/colors.dart';
 
 class SignUp extends StatelessWidget {
@@ -19,13 +20,17 @@ class SignUp extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Image.asset(
+              height: 200,
+              width: 200,
               "assets/logo.png",
             ),
           ),
         ),
         const SizedBox(height: 50),
         InkWell(
-          onTap: () {
+          onTap: () async {
+            AuthController authController = Get.put(AuthController());
+            await authController.login();
             context.push("/home");
           },
           child: Container(

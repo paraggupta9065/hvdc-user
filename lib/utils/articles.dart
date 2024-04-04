@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hvdc_user/controllers/article_controller.dart';
 import 'package:hvdc_user/utils/colors.dart';
+import 'package:hvdc_user/utils/date_parser.dart';
 import 'package:hvdc_user/utils/style.dart';
+import 'package:wordpress_client/wordpress_client.dart';
 
-class Articles extends StatelessWidget {
+class Articles extends StatefulWidget {
   const Articles({super.key});
+
+  @override
+  State<Articles> createState() => _ArticlesState();
+}
+
+class _ArticlesState extends State<Articles> {
+  final ArticleController articleController = Get.put(ArticleController());
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +26,8 @@ class Articles extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
                     Row(
@@ -25,107 +36,131 @@ class Articles extends StatelessWidget {
                         Text(
                           'Articles',
                           style: TextStyle(
-                            color: Color(0xFF333333),
+                            color: kText,
                             fontSize: 20,
-                          ),
-                        ),
-                        Text(
-                          'See All',
-                          style: TextStyle(
-                            color: Color(0xFF333333),
-                            fontSize: 14,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: SizedBox(
-                  width: Get.width,
-                  height: 50,
-                  child: ListView.builder(
-                    itemCount: 5,
-                    shrinkWrap: true,
-                    physics: const ScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: kGreen,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                          color: const Color(0xFFFFFFFF),
-                        ),
-                        margin: const EdgeInsets.only(right: 16),
-                        width: 91,
-                        child: const Center(
-                          child: Text(
-                            'Health',
-                            style: TextStyle(
-                              color: Color(0xFF4A7C4C),
-                              fontSize: 16,
+              Obx(() => articleController.isLoading.value
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: SizedBox(
+                            width: Get.width,
+                            height: 50,
+                            child: ListView.builder(
+                              itemCount: articleController.categories.length,
+                              shrinkWrap: true,
+                              physics: const ScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: kGreen,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                    color:
+                                        articleController.selectedIndex.value ==
+                                                index
+                                            ? kGreen
+                                            : kWhite,
+                                  ),
+                                  margin: const EdgeInsets.only(right: 16),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Center(
+                                    child: Text(
+                                      articleController
+                                              .categories[index].name ??
+                                          "",
+                                      style: TextStyle(
+                                        color: articleController
+                                                    .selectedIndex.value !=
+                                                index
+                                            ? kGreen
+                                            : kWhite,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              ListView.builder(
-                itemCount: 3,
-                shrinkWrap: true,
-                physics: const ScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                itemBuilder: (BuildContext context, int index) {
-                  return const ArticleTile();
-                },
-              ),
-              const SizedBox(height: 20),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Trending',
-                        style: TextStyle(
-                          color: Color(0xFF333333),
-                          fontSize: 16,
+                        ListView.builder(
+                          itemCount: articleController.posts.length > 3
+                              ? 3
+                              : articleController.posts.length,
+                          shrinkWrap: true,
+                          physics: const ScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          itemBuilder: (BuildContext context, int index) {
+                            Post post = articleController.posts[index];
+                            return InkWell(
+                              onTap: () => context.push(
+                                "/article/${post.id}",
+                              ),
+                              child: ArticleTile(
+                                post: post,
+                              ),
+                            );
+                          },
                         ),
-                      ),
-                      Text(
-                        'See All',
-                        style: TextStyle(
-                          color: Color(0xFF333333),
-                          fontSize: 14,
+                        const SizedBox(height: 20),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Trending',
+                                  style: TextStyle(
+                                    color: Color(0xFF333333),
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                Text(
+                                  'See All',
+                                  style: TextStyle(
+                                    color: Color(0xFF333333),
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ]),
                         ),
-                      ),
-                    ]),
-              ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: SizedBox(
-                  width: Get.width,
-                  height: 200,
-                  child: ListView.builder(
-                    itemCount: 5,
-                    shrinkWrap: true,
-                    physics: const ScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) {
-                      return const ArticleCard();
-                    },
-                  ),
-                ),
-              ),
+                        const SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: SizedBox(
+                            width: Get.width,
+                            height: 200,
+                            child: ListView.builder(
+                              itemCount: articleController.trandingPosts.length,
+                              shrinkWrap: true,
+                              physics: const ScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, int index) {
+                                return ArticleCard(
+                                  post: articleController.trandingPosts[index],
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
             ],
           ),
         ),
@@ -137,7 +172,10 @@ class Articles extends StatelessWidget {
 class ArticleCard extends StatelessWidget {
   const ArticleCard({
     super.key,
+    required this.post,
   });
+
+  final Post post;
 
   @override
   Widget build(BuildContext context) {
@@ -146,18 +184,31 @@ class ArticleCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 130,
-            width: 220,
-            decoration: BoxDecoration(
-                color: kGreen, borderRadius: BorderRadius.circular(16)),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Container(
+              height: 130,
+              width: 220,
+              decoration: BoxDecoration(
+                color: kGreen,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Image.network(
+                post.featuredImageUrl ??
+                    "https://www.trschools.com/templates/imgs/default_placeholder.png",
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
           const SizedBox(height: 10),
-          Text(
-            'COVID-19 Was a Top Cause\nof Death in 2020 and 2021,\nEven For Younger People',
-            style: kTextStyle.copyWith(fontSize: 16),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          SizedBox(
+            width: 220,
+            child: Text(
+              post.title?.parsedText ?? "",
+              style: kTextStyle.copyWith(fontSize: 16),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
@@ -168,7 +219,10 @@ class ArticleCard extends StatelessWidget {
 class ArticleTile extends StatelessWidget {
   const ArticleTile({
     super.key,
+    required this.post,
   });
+
+  final Post post;
 
   @override
   Widget build(BuildContext context) {
@@ -176,11 +230,18 @@ class ArticleTile extends StatelessWidget {
       padding: const EdgeInsets.only(top: 20),
       child: Row(
         children: [
-          Container(
-            height: 110,
-            width: 110,
-            decoration: BoxDecoration(
-                color: kGreen, borderRadius: BorderRadius.circular(16)),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Container(
+              height: 110,
+              width: 110,
+              decoration: BoxDecoration(color: kGreen),
+              child: Image.network(
+                post.featuredImageUrl ??
+                    "https://www.trschools.com/templates/imgs/default_placeholder.png",
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
           const SizedBox(width: 10),
           SizedBox(
@@ -190,16 +251,29 @@ class ArticleTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  'Dec 22,2022',
+                  dateParser(
+                    (post.date ?? DateTime.now()),
+                  ),
                   style: kTextStyle.copyWith(fontSize: 12),
                 ),
-                Text(
-                  'COVID-19 Was a Top Cause\nof Death in 2020 and 2021,\nEven For Younger People',
-                  style: kTextStyle.copyWith(fontSize: 16),
+                SizedBox(
+                  width: 200,
+                  child: Text(
+                    post.title?.parsedText ?? "",
+                    style: kTextStyle.copyWith(
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
-                Text(
-                  'Covid-19',
-                  style: kTextStyle.copyWith(fontSize: 12),
+                SizedBox(
+                  width: 200,
+                  child: Text(
+                    post.content?.parsedText ?? "",
+                    maxLines: 1,
+                    style: kTextStyle.copyWith(
+                      fontSize: 12,
+                    ),
+                  ),
                 ),
               ],
             ),

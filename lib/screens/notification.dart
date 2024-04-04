@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hvdc_user/utils/appBar.dart';
 import 'package:hvdc_user/utils/colors.dart';
 
 import '../utils/style.dart';
@@ -10,15 +11,7 @@ class Notifications extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Notification",
-          style: kTextStyle.copyWith(
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
+      appBar: KAppBar("Notification"),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.only(right: 20, left: 20, top: 20),
