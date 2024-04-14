@@ -3,6 +3,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hvdc_user/utils/routing.dart';
 
 class OnboardingController extends GetxController {
   PageController pageController = PageController();
@@ -15,7 +16,7 @@ class OnboardingController extends GetxController {
       page.value = (pageController.page!).toInt();
       page.value++;
     } else {
-      Get.context?.go("/sign-up");
+      router.go("/sign-up");
     }
   }
 }

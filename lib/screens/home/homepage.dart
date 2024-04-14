@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hvdc_user/controllers/auth_controller.dart';
 import 'package:hvdc_user/controllers/homepage_controller.dart';
@@ -25,15 +24,13 @@ class MainHome extends StatefulWidget {
 class _MainHomeState extends State<MainHome> {
   final HomepageController homepageController = Get.put(HomepageController());
 
-  final ArticleController articleController = Get.put(ArticleController());
   @override
   void initState() {
-    articleController.initArticles();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return kIsWeb ? const WebHome() : const MobileHome();
+    return !context.isPhone ? const WebHome() : const MobileHome();
   }
 }

@@ -7,6 +7,7 @@ import 'package:hvdc_user/utils/img_name.dart';
 import 'package:hvdc_user/utils/style.dart';
 
 import '../../controllers/auth_controller.dart';
+import '../../utils/loading.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
@@ -24,7 +25,7 @@ class ProfilePage extends StatelessWidget {
               Obx(
                 () => authController.isLoadingProfile.value
                     ? const Center(
-                        child: CircularProgressIndicator(),
+                        child: KLoading(),
                       )
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -80,7 +81,7 @@ class ProfilePage extends StatelessWidget {
                 context.push("/notification");
               }),
               profileItemList("My Test Bookings", testBook, () {
-                context.push('/profile/test-booking');
+                context.push('/bookings');
               }),
               profileItemList("Order History", orderHistory, () {}),
               profileItemList("Help Center", helpCenter, () {}),
@@ -93,7 +94,7 @@ class ProfilePage extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 20, right: 20, left: 20),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: kButtonGreen,
+            backgroundColor: kGreen,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10), // Button border radius
             ),
@@ -105,8 +106,7 @@ class ProfilePage extends StatelessWidget {
             child: Center(
               child: Text(
                 "Logout",
-                style: kTextStyle.copyWith(
-                    fontSize: 20, fontWeight: FontWeight.w300, color: kWhite),
+                style: kTextStyle.copyWith(color: kWhite),
               ),
             ),
           ),

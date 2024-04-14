@@ -53,7 +53,7 @@ class NotificationTile extends StatelessWidget {
         Row(
           children: [
             CircleAvatar(
-              backgroundColor: kGreen.withOpacity(0.3),
+              backgroundColor: kGreenOpacity,
               radius: 30,
               child: Icon(
                 FontAwesomeIcons.check,

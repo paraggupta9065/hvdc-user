@@ -27,17 +27,15 @@ class AuthController extends GetxController {
 
       String endpoint = "/user/login/";
 
-      print(googleAuthentication.accessToken.toString());
-
       dynamic response = await ApiHelper.post(endpoint, {
         "token": googleAuthentication.accessToken.toString(),
       }, headers: {
         "Content-Type": "application/json"
       });
-      print(response);
       box.put("token", response['access_token']);
       box.put("refresh_token", response['refresh_token']);
     } catch (e) {
+      print(e);
       kShowSnackbar(title: "Error !", message: e.toString());
     }
   }

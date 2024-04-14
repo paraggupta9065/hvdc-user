@@ -7,3 +7,5 @@ double kWidth(double width) {
 double kHeight(double height) {
   return Get.height / 100 * height;
 }
+
+final kMobile = Get.context!.isPhone;

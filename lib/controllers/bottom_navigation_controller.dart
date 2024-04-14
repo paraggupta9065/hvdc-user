@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hvdc_user/screens/book_apointment/book_apointment_page.dart';
+import 'package:hvdc_user/screens/bookings.dart';
 import 'package:hvdc_user/screens/home/homepage.dart';
 import 'package:hvdc_user/screens/profile_screens/profile_page.dart';
 import 'package:hvdc_user/utils/articles.dart';
@@ -13,7 +14,7 @@ class BottomNavigationController extends GetxController {
 
   List<Widget> pages = [
     const MainHome(),
-    const AppointmentBookingScreen(),
+    const Bookings(),
     const Articles(),
     ProfilePage()
   ];

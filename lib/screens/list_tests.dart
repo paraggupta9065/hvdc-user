@@ -6,8 +6,10 @@ import 'package:go_router/go_router.dart';
 import 'package:hvdc_user/controllers/tests_controller.dart';
 import 'package:hvdc_user/models/test.dart';
 import 'package:hvdc_user/utils/appBar.dart';
+import '../controllers/cart_controller.dart';
 import '../utils/card.dart';
 import '../utils/colors.dart';
+import '../utils/loading.dart';
 import '../utils/style.dart';
 import 'dart:math' as math;
 
@@ -39,7 +41,7 @@ class _ListTestsState extends State<ListTests> {
             child: Obx(
               () => testsController.isLoadingTests.value
                   ? const Center(
-                      child: CircularProgressIndicator(),
+                      child: KLoading(),
                     )
                   : SingleChildScrollView(
                       child: Column(
@@ -52,9 +54,12 @@ class _ListTestsState extends State<ListTests> {
                             itemBuilder: (BuildContext context, int index) {
                               Test test = testsController.tests[index];
 
-                              return Obx(() {
-                                return listTestTile(test, index);
-                              });
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 10.0),
+                                child: Obx(() {
+                                  return listTestTile(test, index);
+                                }),
+                              );
                             },
                           ),
                         ],
@@ -66,7 +71,9 @@ class _ListTestsState extends State<ListTests> {
   }
 
   Container listTestTile(Test test, int index) {
+    CartController cartController = Get.put(CartController());
     bool isOpen = testsController.openIndex.value == index;
+
     return kContainer(
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -147,13 +154,31 @@ class _ListTestsState extends State<ListTests> {
                 child: Text(test.description),
               ),
             ),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                "Add to Cart",
-                style: kTextStyle.copyWith(color: kGreen),
-              ),
-            ),
+            test.inCart
+                ? TextButton(
+                    onPressed: () {
+                      setState(() {
+                        test.inCart = false;
+                      });
+                      cartController.removeFromCart(test.id);
+                    },
+                    child: Text(
+                      "Remove from cart",
+                      style: kTextStyle.copyWith(color: kGreen),
+                    ),
+                  )
+                : TextButton(
+                    onPressed: () {
+                      setState(() {
+                        test.inCart = true;
+                      });
+                      cartController.addToCart(test.id);
+                    },
+                    child: Text(
+                      "Add to cart",
+                      style: kTextStyle.copyWith(color: kGreen),
+                    ),
+                  ),
           ],
         ),
       ),

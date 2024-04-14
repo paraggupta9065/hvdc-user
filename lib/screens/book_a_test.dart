@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hvdc_user/controllers/homepage_controller.dart';
 import '../models/category.dart';
 import '../utils/colors.dart';
+import '../utils/loading.dart';
 import '../utils/style.dart';
 import 'home/homepage.dart';
 import 'home/mobile_home.dart';
@@ -65,39 +67,32 @@ class _BookATestState extends State<BookATest> {
                 ],
               ),
               const SizedBox(height: 30),
-              FutureBuilder(
-                future: homepageController.getCategories(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+              Obx(() {
+                if (homepageController.isLoadingCategories.value) {
+                  return const KLoading();
+                }
+
+                List<Category> categories = homepageController.categories;
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                  ),
+                  itemCount: categories.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Category category = categories[index];
+                    return CircularCard(
+                      image: category.image,
+                      text: category.categoryName,
+                      onTap: () {
+                        context.push(
+                            "/tests?category_id=${category.id}&category_name=${category.categoryName}");
+                      },
                     );
-                  }
-
-                  List<Category> categories = homepageController.categories;
-
-                  return GridView.builder(
-                    shrinkWrap: true,
-                    physics: const ScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                    ),
-                    itemCount: categories.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      Category category = categories[index];
-                      return CircularCard(
-                        image: category.image,
-                        text: category.categoryName,
-                        onTap: () {
-                          context.push(
-                              "/tests?category_id=${category.id}&category_name=${category.categoryName}");
-                        },
-                      );
-                    },
-                  );
-                },
-              ),
+                  },
+                );
+              })
             ],
           ),
         ),

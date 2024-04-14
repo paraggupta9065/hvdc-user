@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hvdc_user/screens/auth/signup.dart';
 import 'package:hvdc_user/screens/book_a_test.dart';
 import 'package:hvdc_user/screens/book_apointment/book_apointment_page.dart';
+import 'package:hvdc_user/screens/bookings.dart';
 import 'package:hvdc_user/screens/bottom_navigation_page.dart';
 import 'package:hvdc_user/screens/cart.dart';
 import 'package:hvdc_user/screens/list_tests.dart';
@@ -112,6 +113,8 @@ final router = GoRouter(
             builder: (context, state) =>
                 Article(id: int.parse(state.pathParameters['id']!)),
           ),
+          GoRoute(
+              path: 'bookings', builder: (context, state) => const Bookings()),
         ]),
   ],
 );

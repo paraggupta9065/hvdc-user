@@ -29,21 +29,21 @@ class TestBookingScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
           child: Column(
             children: [
               Container(
                 decoration: BoxDecoration(boxShadow: [
                   BoxShadow(
-                    color: Color.fromARGB(255, 225, 224, 224)
+                    color: const Color.fromARGB(255, 225, 224, 224)
                         .withOpacity(0.5), // Shadow color
                     spreadRadius: 1, // Spread radius
                     blurRadius: 2, // Blur radius
-                    offset: Offset(0, 2), // Offset in x and y directions
+                    offset: const Offset(0, 2), // Offset in x and y directions
                   ),
                 ], color: kWhite, borderRadius: BorderRadius.circular(10)),
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +52,7 @@ class TestBookingScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 100,
                           width: 100,
                           child: ClipRRect(
@@ -66,7 +66,7 @@ class TestBookingScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 20,
                         ),
                         Column(
@@ -80,7 +80,7 @@ class TestBookingScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w300,
                               ),
                             ),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             Text(
                               "1 Tests",
                               style: kTextStyle.copyWith(
@@ -142,8 +142,8 @@ class TestBookingScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image(image: AssetImage(addCircle)),
-                          SizedBox(
+                          const Image(image: AssetImage(addCircle)),
+                          const SizedBox(
                             width: 10,
                           ),
                           Text(
@@ -151,7 +151,7 @@ class TestBookingScreen extends StatelessWidget {
                             style: kTextStyle.copyWith(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w400,
-                                color: kButtonGreen),
+                                color: kGreen),
                           )
                         ],
                       ),
@@ -169,14 +169,14 @@ class TestBookingScreen extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(boxShadow: [
                   BoxShadow(
-                    color: Color.fromARGB(255, 225, 224, 224)
+                    color: const Color.fromARGB(255, 225, 224, 224)
                         .withOpacity(0.5), // Shadow color
                     spreadRadius: 1, // Spread radius
                     blurRadius: 2, // Blur radius
-                    offset: Offset(0, 2), // Offset in x and y directions
+                    offset: const Offset(0, 2), // Offset in x and y directions
                   ),
                 ], color: kWhite, borderRadius: BorderRadius.circular(10)),
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -209,11 +209,12 @@ class TestBookingScreen extends StatelessWidget {
 
                   boxShadow: [
                     BoxShadow(
-                      color: Color.fromARGB(255, 225, 224, 224)
+                      color: const Color.fromARGB(255, 225, 224, 224)
                           .withOpacity(0.5), // Shadow color
                       spreadRadius: 1, // Spread radius
                       blurRadius: 2, // Blur radius
-                      offset: Offset(0, 2), // Offset in x and y directions
+                      offset:
+                          const Offset(0, 2), // Offset in x and y directions
                     ),
                   ],
                 ),
@@ -232,11 +233,11 @@ class TestBookingScreen extends StatelessWidget {
                           style: kTextStyle.copyWith(
                               fontSize: 18,
                               fontWeight: FontWeight.w400,
-                              color: kButtonGreen),
+                              color: kGreen),
                         ),
                       ),
                     ),
-                    suffixIconConstraints: BoxConstraints(
+                    suffixIconConstraints: const BoxConstraints(
                       minWidth: 24, // Minimum width of the suffix icon
                       minHeight: 24, // Minimum height of the suffix icon
                     ),
@@ -254,11 +255,13 @@ class TestBookingScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 70,),
+              const SizedBox(
+                height: 70,
+              ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: kButtonGreen,
-                    padding: EdgeInsets.symmetric(
+                    backgroundColor: kGreen,
+                    padding: const EdgeInsets.symmetric(
                         horizontal: 100, vertical: 20), // Button padding
                     shape: RoundedRectangleBorder(
                       borderRadius:
@@ -277,7 +280,7 @@ class TestBookingScreen extends StatelessWidget {
                             fontWeight: FontWeight.w400,
                             color: kWhite),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Container(
@@ -286,7 +289,7 @@ class TestBookingScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(
                               8.0), // Optional: Add border radius for rounded corners
                         ),
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                             horizontal: 8.0,
                             vertical: 4.0), // Padding for the container
                         child: Text(
@@ -306,22 +309,20 @@ class TestBookingScreen extends StatelessWidget {
       ),
     );
   }
+}
 
-  Row textImageWidget(String heading, String headImage) {
-    return Row(
-      children: [
-        Image(image: AssetImage(headImage)),
-        const SizedBox(
-          width: 10,
-        ),
-        Text(
-          heading,
-          style: kTextStyle.copyWith(
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-          ),
-        )
-      ],
-    );
-  }
+Row textImageWidget(String heading, String headImage) {
+  return Row(
+    children: [
+      Image(image: AssetImage(headImage)),
+      const SizedBox(
+        width: 10,
+      ),
+      Text(
+        heading,
+        style: kTextStyle.copyWith(
+            fontSize: 16, color: kText, fontWeight: FontWeight.w500),
+      )
+    ],
+  );
 }

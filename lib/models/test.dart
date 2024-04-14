@@ -6,6 +6,7 @@ class Test {
   double regularPrice;
   double price;
   bool isOffline;
+  bool inCart;
   int pathology;
   int category;
 
@@ -19,6 +20,7 @@ class Test {
     required this.isOffline,
     required this.pathology,
     required this.category,
+    required this.inCart,
   });
 
   factory Test.fromJson(Map<String, dynamic> json) {
@@ -32,6 +34,7 @@ class Test {
           : null,
       price: json['price'] != null ? json['price'].toDouble() : null,
       isOffline: json['is_offline'] ?? false,
+      inCart: json['in_cart'] ?? false,
       pathology: json['pathology'],
       category: json['category'],
     );

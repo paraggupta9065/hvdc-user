@@ -29,10 +29,11 @@ class ApiHelper {
     );
   }
 
-  static Future<dynamic> delete(String endpoint,
+  static Future<dynamic> delete(String endpoint, dynamic body,
       {Map<String, String>? headers}) async {
     return await _sendRequest(
-      http.delete(Uri.parse('$_baseUrl$endpoint'), headers: headers),
+      http.delete(Uri.parse('$_baseUrl$endpoint'),
+          body: jsonEncode(body), headers: headers),
     );
   }
 
@@ -40,13 +41,20 @@ class ApiHelper {
     try {
       final response = await request;
       final statusCode = response.statusCode;
+      print(response.body);
+      print("response.body");
+      final body = jsonDecode(response.body);
 
       if (statusCode >= 200 && statusCode < 300) {
-        return jsonDecode(response.body);
+        return body;
       } else {
         if (statusCode == 401) {
           AuthController authController = Get.put(AuthController());
           authController.logout();
+        } else if (statusCode == 400) {
+          throw Exception(body['detail']);
+        } else if (statusCode == 404) {
+          throw Error.throwWithStackTrace("not_found", StackTrace.current);
         }
         throw Exception('Request failed with status code: $statusCode');
       }

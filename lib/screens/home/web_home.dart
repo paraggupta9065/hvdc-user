@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:hvdc_user/utils/responsive.dart';
 import 'package:hvdc_user/utils/style.dart';
@@ -7,6 +9,7 @@ import 'package:hvdc_user/utils/style.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/homepage_controller.dart';
 import '../../utils/colors.dart';
+import '../../utils/padding.dart';
 import '../../utils/urls.dart';
 
 class WebHome extends StatefulWidget {
@@ -28,9 +31,11 @@ class _WebHomeState extends State<WebHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kGreenOpacity,
       body: Column(
         children: [
           Header(),
+          const SizedBox(height: 50),
           Banner(),
         ],
       ),
@@ -46,99 +51,106 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100),
-            child: Image.asset(
-              height: 70,
-              width: kWidth(10),
-              "assets/logo2.png",
-              fit: BoxFit.cover,
-            ),
-          ),
-          Row(
+    return Container(
+      color: kWhite,
+      child: Padding(
+        padding: kWebPadding.copyWith(top: 20, bottom: 20),
+        child: SizedBox(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Icon(
-                Icons.location_on_outlined,
-                size: 20,
+              Image.asset(
+                height: 50,
+                width: kWidth(10),
+                "assets/logo2.png",
+                fit: BoxFit.cover,
               ),
-              SizedBox(width: kWidth(.5)),
-              Text(
-                "Select Location",
-                style: kTextStyle.copyWith(color: kGrey),
+              // Row(
+              //   children: [
+              //     const Icon(
+              //       Icons.location_on_outlined,
+              //       size: 20,
+              //     ),
+              //     SizedBox(width: kWidth(.5)),
+              //     Text(
+              //       "Select Location",
+              //       style: kTextStyle.copyWith(color: kGrey),
+              //     ),
+              //     SizedBox(width: kWidth(.5)),
+              //     const Icon(
+              //       Icons.keyboard_arrow_down,
+              //       size: 20,
+              //     ),
+              //   ],
+              // ),
+              const Spacer(
+                flex: 1,
               ),
-              SizedBox(width: kWidth(.5)),
-              const Icon(
-                Icons.keyboard_arrow_down,
-                size: 20,
+              SizedBox(
+                width: kWidth(2),
               ),
-            ],
-          ),
-          SizedBox(
-            width: kWidth(2),
-          ),
-          Container(
-            height: 50,
-            width: kWidth(20),
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            clipBehavior: Clip.antiAlias,
-            decoration: ShapeDecoration(
-              color: kWhite,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(width: 1, color: kGrey.withOpacity(.4)),
-                borderRadius: BorderRadius.circular(100),
-              ),
-            ),
-            child: Row(
-              children: [
-                Icon(CupertinoIcons.search,
-                    size: 30, color: kGrey.withOpacity(.4)),
-                SizedBox(width: kWidth(1)),
-                Text(
-                  "Search",
-                  style: kTextStyle.copyWith(color: kGrey.withOpacity(.4)),
+              Container(
+                height: 50,
+                width: kWidth(20),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                clipBehavior: Clip.antiAlias,
+                decoration: ShapeDecoration(
+                  color: kWhite,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 1, color: kGrey.withOpacity(.4)),
+                    borderRadius: BorderRadius.circular(100),
+                  ),
                 ),
-              ],
-            ),
-          ),
-          SizedBox(
-            width: kWidth(30),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                NavbarItem('About'),
-                NavbarItem('Team'),
-                NavbarItem('Process'),
-                NavbarItem('Healthcare Services'),
-                NavbarItem('Offers'),
-              ],
-            ),
-          ),
-          TextButton(
-            onPressed: () {},
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(kGreen),
-              shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(12)))),
-            ),
-            child: SizedBox(
-              height: 40,
-              width: kWidth(10),
-              child: Center(
-                child: Text(
-                  "Next",
-                  style: TextStyle(
-                    color: kWhite,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
+                child: Row(
+                  children: [
+                    Icon(CupertinoIcons.search,
+                        size: 30, color: kGrey.withOpacity(.4)),
+                    SizedBox(width: kWidth(1)),
+                    Text(
+                      "Search",
+                      style: kTextStyle.copyWith(color: kGrey.withOpacity(.4)),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: kWidth(30),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    NavbarItem('About'),
+                    NavbarItem('Team'),
+                    NavbarItem('Process'),
+                    NavbarItem('Healthcare Services'),
+                    NavbarItem('Offers'),
+                  ],
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(kGreen),
+                  shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)))),
+                ),
+                child: SizedBox(
+                  height: 40,
+                  width: kWidth(10),
+                  child: Center(
+                    child: Text(
+                      "Next",
+                      style: TextStyle(
+                        color: kWhite,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -152,10 +164,10 @@ class NavbarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 13.0),
       child: Text(title,
-          style:
-              kTextStyle.copyWith(color: kGreen, fontWeight: FontWeight.w700)),
+          style: kTextStyle.copyWith(
+              color: kGreenOpacityDark, fontWeight: FontWeight.w700)),
     );
   }
 }
@@ -168,43 +180,166 @@ class Banner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SizedBox(
-          height: 180,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: ListView.builder(
-              itemCount: homepageController.banners.length,
-              itemBuilder: (context, index) => SizedBox(
-                width: double.infinity,
-                height: 180,
-                child: Image.network(
-                  baseUrl + homepageController.banners[index].image,
-                  fit: BoxFit.cover,
+    return Padding(
+      padding: kWebPadding,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: kWidth(32),
+                  child: Text(
+                    "family body checkup package now at ₹240".toUpperCase(),
+                    textAlign: TextAlign.justify,
+                    style: kTextStyle.copyWith(
+                      color: kText,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 48,
+                    ),
+                  ),
                 ),
-              ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: kWidth(32),
+                  child: Flex(
+                    direction: Axis.horizontal,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: kGreen),
+                                borderRadius: BorderRadius.circular(100)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SvgPicture.asset(
+                                "assets/app_icons/stars.svg",
+                                semanticsLabel: 'Acme Logo',
+                                color: kGreen,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            "full body checkup".toUpperCase(),
+                            textAlign: TextAlign.justify,
+                            style: kTextStyle.copyWith(
+                              color: kText,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: kGreen),
+                                borderRadius: BorderRadius.circular(100)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SvgPicture.asset(
+                                "assets/app_icons/stars.svg",
+                                semanticsLabel: 'Acme Logo',
+                                color: kGreen,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            "free home sample pickup".toUpperCase(),
+                            textAlign: TextAlign.justify,
+                            style: kTextStyle.copyWith(
+                              color: kText,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
-        ),
-        // SizedBox(
-        //   height: 170,
-        //   child: Align(
-        //     alignment: Alignment.bottomCenter,
-        //     child: DotsIndicator(
-        //       dotsCount: 3,
-        //       position: 0,
-        //       decorator: DotsDecorator(
-        //         size: const Size.square(8.0),
-        //         activeColor: kGreen,
-        //         activeSize: const Size(40.0, 8.0),
-        //         activeShape: RoundedRectangleBorder(
-        //             borderRadius: BorderRadius.circular(5.0)),
-        //       ),
-        //     ),
-        //   ),
-        // )
-      ],
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+                height: 650,
+                width: 700,
+                decoration: BoxDecoration(color: kWhite),
+                child: Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.asset(
+                              'assets/web_banner/1.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                right: 10,
+                                top: 10,
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: AspectRatio(
+                                  aspectRatio: 1 / 1,
+                                  child: Image.asset(
+                                    'assets/web_banner/1.png',
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                right: 10,
+                                bottom: 10,
+                                top: 10,
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: AspectRatio(
+                                  aspectRatio: 1 / 1,
+                                  child: Image.asset(
+                                    'assets/web_banner/1.png',
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )),
+          ),
+        ],
+      ),
     );
   }
 }

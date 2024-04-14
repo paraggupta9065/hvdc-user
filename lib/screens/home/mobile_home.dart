@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hvdc_user/models/pathlogy.dart';
 
 import '../../controllers/article_controller.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/homepage_controller.dart';
 import '../../utils/articles.dart';
 import '../../utils/colors.dart';
+import '../../utils/loading.dart';
 import '../../utils/urls.dart';
 
 class MobileHome extends StatefulWidget {
@@ -30,28 +32,30 @@ class MobileHomeState extends State<MobileHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Obx(
-        () => homepageController.isLoading.value
-            ? const Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Header(),
-                    const SizedBox(height: 20),
-                    Banner(),
-                    const SizedBox(height: 20),
-                    const Cards(),
-                    const SizedBox(height: 20),
-                    const UploadPrescription(),
-                    const SizedBox(height: 20),
-                    const NearbyLabs(),
-                    const SizedBox(height: 20),
-                    trendingArticle(),
-                  ],
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Obx(
+          () => homepageController.isLoading.value
+              ? const Center(child: KLoading())
+              : SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Header(),
+                      const SizedBox(height: 20),
+                      Banner(),
+                      const SizedBox(height: 20),
+                      const Cards(),
+                      const SizedBox(height: 20),
+                      const UploadPrescription(),
+                      const SizedBox(height: 20),
+                      NearbyLabs(),
+                      const SizedBox(height: 20),
+                      trendingArticle(),
+                    ],
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }
@@ -68,10 +72,13 @@ class MobileHomeState extends State<MobileHome> {
             ),
           ),
           Text(
-            'See All',
+            'View All',
             style: TextStyle(
-              color: Color(0xFF333333),
-              fontSize: 14,
+              color: kGreen,
+              fontSize: 16,
+              fontFamily: 'Raleway',
+              fontWeight: FontWeight.w400,
+              height: 0,
             ),
           ),
         ]),
@@ -97,9 +104,11 @@ class MobileHomeState extends State<MobileHome> {
 }
 
 class NearbyLabs extends StatelessWidget {
-  const NearbyLabs({
+  NearbyLabs({
     super.key,
   });
+
+  final HomepageController homepageController = Get.put(HomepageController());
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +127,7 @@ class NearbyLabs extends StatelessWidget {
                 height: 0,
               ),
             ),
-            Text(
+            const Text(
               'View All',
               style: TextStyle(
                 color: kGreen,
@@ -134,9 +143,10 @@ class NearbyLabs extends StatelessWidget {
         SizedBox(
           height: 200,
           child: ListView.builder(
-            itemCount: 3,
+            itemCount: homepageController.pathologies.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (BuildContext context, int index) {
+              Pathlogy pathlogy = homepageController.pathologies[index];
               return Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Container(
@@ -146,6 +156,12 @@ class NearbyLabs extends StatelessWidget {
                     color: Colors.black,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
+                    ),
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        baseUrl + pathlogy.image,
+                      ),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
@@ -180,12 +196,12 @@ class UploadPrescription extends StatelessWidget {
             height: 50,
             width: 50,
             decoration: BoxDecoration(color: kOpacity),
-            child: Icon(
+            child: const Icon(
               FontAwesomeIcons.image,
               color: kWhite,
             ),
           ),
-          Column(
+          const Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,7 +216,7 @@ class UploadPrescription extends StatelessWidget {
                   height: 0,
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               Text(
                 'Lorem Ipsum',
                 style: TextStyle(
@@ -222,7 +238,7 @@ class UploadPrescription extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: Center(
+            child: const Center(
               child: Text(
                 'Upload',
                 style: TextStyle(
@@ -253,20 +269,20 @@ class Cards extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            CircularCard(
-              image: "",
+            CircularCardOffline(
+              image: "assets/app_icons/lab-technician.png",
               text: "Book A Test",
               onTap: () {
                 context.push("/book-a-test");
               },
             ),
-            CircularCard(
-              image: "",
+            CircularCardOffline(
+              image: "assets/app_icons/lady-doing-yoga.png",
               text: "Health Tips",
               onTap: () => {},
             ),
-            CircularCard(
-              image: "",
+            CircularCardOffline(
+              image: "assets/app_icons/x-rays.png",
               text: "X-ray Scan",
               onTap: () {},
             ),
@@ -274,6 +290,53 @@ class Cards extends StatelessWidget {
         ),
         const SizedBox(height: 20),
       ],
+    );
+  }
+}
+
+class CircularCardOffline extends StatelessWidget {
+  final String image;
+  final String text;
+  final VoidCallback onTap;
+
+  const CircularCardOffline({
+    super.key,
+    required this.image,
+    required this.text,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            height: 70,
+            width: 70,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(200),
+              color: kGreenOpacity,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Image.asset(image),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            text,
+            style: TextStyle(
+              color: kText,
+              fontSize: 14,
+              fontFamily: 'Raleway',
+              fontWeight: FontWeight.w400,
+              height: 0,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -449,7 +512,7 @@ class Header extends StatelessWidget {
                             onTap: () {
                               context.push("/notification");
                             },
-                            child: Icon(
+                            child: const Icon(
                               CupertinoIcons.bell,
                               color: kGreen,
                             ),
@@ -459,7 +522,7 @@ class Header extends StatelessWidget {
                             onTap: () {
                               context.push("/cart");
                             },
-                            child: Icon(
+                            child: const Icon(
                               CupertinoIcons.shopping_cart,
                               color: kGreen,
                             ),

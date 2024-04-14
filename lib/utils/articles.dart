@@ -7,6 +7,8 @@ import 'package:hvdc_user/utils/date_parser.dart';
 import 'package:hvdc_user/utils/style.dart';
 import 'package:wordpress_client/wordpress_client.dart';
 
+import 'loading.dart';
+
 class Articles extends StatefulWidget {
   const Articles({super.key});
 
@@ -48,7 +50,7 @@ class _ArticlesState extends State<Articles> {
               ),
               Obx(() => articleController.isLoading.value
                   ? const Center(
-                      child: CircularProgressIndicator(),
+                      child: KLoading(),
                     )
                   : Column(
                       children: [
