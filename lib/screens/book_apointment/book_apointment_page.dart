@@ -97,37 +97,33 @@ class _AppointmentBookingScreenState extends State<AppointmentBookingScreen> {
                 ),
                 const SizedBox(height: 20),
                 Obx(
-                  () => cartController.isLoadingCart.value ||
-                          cartController.isEmpty.value
+                  () => cartController.isLoadingCart.value
                       ? const SizedBox()
-                      : TextButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(kGreen),
-                            shape: MaterialStateProperty.all(
-                                const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(12)))),
-                          ),
-                          onPressed: () {
-                            orderController.createOrder();
-                          },
-                          child: SizedBox(
-                            height: 40,
-                            width: double.maxFinite,
-                            child: Center(
-                              child: orderController.isLoadingOrders.value
-                                  ? const KLoadingCircular()
-                                  : const Text(
-                                      "Complete",
-                                      style: TextStyle(
-                                        color: kWhite,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
+                      : orderController.isLoadingOrders.value
+                          ? const KLoadingCircular()
+                          : TextButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(kGreen),
+                                shape: MaterialStateProperty.all(
+                                    const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(12)))),
+                              ),
+                              onPressed: () {
+                                orderController.createOrder();
+                              },
+                              child: SizedBox(
+                                height: 40,
+                                width: double.maxFinite,
+                                child: Center(
+                                  child: Text(
+                                    "Complete",
+                                    style: kTextStyle.copyWith(color: kWhite),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
                 ),
               ]),
         ),

@@ -48,15 +48,13 @@ class OrderController extends GetxController {
           "Authorization": "Bearer $token"
         },
       );
-      await getOrders();
+      getOrders();
       Get.dialog(
         Lottie.asset(
           'assets/animation/sucess.json',
           onLoaded: (p0) {
             Future.delayed(const Duration(seconds: 2)).then((value) {
               while (true) {
-                print(router.routerDelegate.currentConfiguration.matches.last
-                    .matchedLocation);
                 if (router.routerDelegate.currentConfiguration.matches.last
                         .matchedLocation !=
                     "/home") {

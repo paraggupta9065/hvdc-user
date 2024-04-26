@@ -41,8 +41,6 @@ class ApiHelper {
     try {
       final response = await request;
       final statusCode = response.statusCode;
-      print(response.body);
-      print("response.body");
       final body = jsonDecode(response.body);
 
       if (statusCode >= 200 && statusCode < 300) {

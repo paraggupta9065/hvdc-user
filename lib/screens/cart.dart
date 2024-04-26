@@ -9,8 +9,10 @@ import 'package:hvdc_user/controllers/cart_controller.dart';
 import 'package:hvdc_user/controllers/order_controller.dart';
 import 'package:hvdc_user/models/address.dart';
 import 'package:hvdc_user/models/cart.dart';
+import 'package:hvdc_user/models/packages.dart';
 import 'package:hvdc_user/models/patient.dart';
 import 'package:hvdc_user/models/test.dart';
+import 'package:hvdc_user/utils/appBar.dart';
 import 'package:hvdc_user/utils/img_name.dart';
 import 'package:hvdc_user/utils/kTextField.dart';
 import 'package:hvdc_user/utils/responsive.dart';
@@ -42,6 +44,20 @@ class _CartState extends State<Cart> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: KAppBar(
+          "Cart",
+          actions: [
+            TextButton(
+              onPressed: () {
+                cartController.clearCart();
+              },
+              child: Text(
+                "clear",
+                style: kTextStyle.copyWith(color: kRed),
+              ),
+            )
+          ],
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -51,9 +67,9 @@ class _CartState extends State<Cart> {
                   child: KLoading(),
                 );
               }
-              if (cartController.isEmpty.value) {
+              if (cartController.cart == null) {
                 return Padding(
-                    padding: EdgeInsets.only(top: kHeight(30)),
+                    padding: EdgeInsets.only(top: kHeight(20)),
                     child: Column(
                       children: [
                         Lottie.asset(
@@ -80,17 +96,13 @@ class _CartState extends State<Cart> {
                                           Radius.circular(12)))),
                             ),
                             onPressed: () => {context.pop()},
-                            child: const SizedBox(
+                            child: SizedBox(
                               height: 40,
                               width: double.maxFinite,
                               child: Center(
                                 child: Text(
                                   "Go To Home",
-                                  style: TextStyle(
-                                    color: kWhite,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                                  style: kTextStyle.copyWith(color: kWhite),
                                 ),
                               ),
                             ),
@@ -107,30 +119,11 @@ class _CartState extends State<Cart> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Row(
-                    children: [
-                      InkWell(
-                        child: const Icon(
-                          Icons.arrow_back,
-                        ),
-                        onTap: () {
-                          context.pop();
-                        },
-                      ),
-                      const SizedBox(width: 20),
-                      Text(
-                        "Cart",
-                        style: kTextStyle.copyWith(
-                            fontSize: 16,
-                            color: kText,
-                            fontWeight: FontWeight.w500),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 30),
+
                   Items(cart: cart),
                   const SizedBox(height: 20),
                   listView(cart),
+                  listViewPackage(cart),
                   const SizedBox(height: 15),
                   //
                   textImageWidget('Sample Pickup', locationIcon),
@@ -154,7 +147,7 @@ class _CartState extends State<Cart> {
         ),
         bottomNavigationBar: Obx(
           () => cartController.isLoadingCart.value ||
-                  cartController.isEmpty.value
+                  (cartController.cart == null)
               ? const SizedBox()
               : Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -185,7 +178,6 @@ class _CartState extends State<Cart> {
                           "Select Slot",
                           style: TextStyle(
                             color: kWhite,
-                            fontSize: 16,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -394,6 +386,21 @@ class _CartState extends State<Cart> {
     );
   }
 
+  ListView listViewPackage(CartModel cart) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const ScrollPhysics(),
+      itemCount: cart.cart.packages.length,
+      itemBuilder: (BuildContext context, int index) {
+        Packages test = cart.cart.packages[index];
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: cartTilePackages(test),
+        );
+      },
+    );
+  }
+
   ListView listView(CartModel cart) {
     return ListView.builder(
       shrinkWrap: true,
@@ -432,6 +439,77 @@ class _CartState extends State<Cart> {
                   ),
                   Text(
                     "Essentials",
+                    style: kTextStyle.copyWith(
+                        fontSize: 14,
+                        color: kText,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        "₹ ${test.price}",
+                        style: kTextStyle.copyWith(
+                            fontSize: 16,
+                            color: kGreen,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        "₹ ${test.regularPrice}",
+                        style: kTextStyle.copyWith(
+                          fontSize: 12,
+                          color: kGrey.withOpacity(0.7),
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.lineThrough,
+                          decorationColor: kGrey.withOpacity(0.7),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              InkWell(
+                onTap: () {
+                  cartController.removeFromCart(test.id);
+                },
+                child: const Icon(
+                  CupertinoIcons.delete,
+                  size: 17,
+                ),
+              ),
+            ],
+          )),
+      height: 100,
+      width: double.infinity,
+    );
+  }
+
+  Container cartTilePackages(Packages test) {
+    return kContainer(
+      child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 15,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    test.name,
+                    style: kTextStyle.copyWith(
+                        fontSize: 16,
+                        color: kText,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  Text(
+                    "",
                     style: kTextStyle.copyWith(
                         fontSize: 14,
                         color: kText,
@@ -576,17 +654,13 @@ class _CartState extends State<Cart> {
                           await patientController.addPatientCart();
                           setState(() {});
                         },
-                        child: const SizedBox(
+                        child: SizedBox(
                           height: 40,
                           width: double.maxFinite,
                           child: Center(
                             child: Text(
                               "Add Patient",
-                              style: TextStyle(
-                                color: kWhite,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ),
+                              style: kTextStyle.copyWith(color: kWhite),
                             ),
                           ),
                         ),
@@ -640,17 +714,13 @@ class _CartState extends State<Cart> {
                           await addressController.addAddressCart();
                           setState(() {});
                         },
-                        child: const SizedBox(
+                        child: SizedBox(
                           height: 40,
                           width: double.maxFinite,
                           child: Center(
                             child: Text(
                               "Add Address",
-                              style: TextStyle(
-                                color: kWhite,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ),
+                              style: kTextStyle.copyWith(color: kWhite),
                             ),
                           ),
                         ),
@@ -698,7 +768,7 @@ class Items extends StatelessWidget {
             ),
             const SizedBox(width: 10),
             Text(
-              "${cart.cart.tests.length} Items in Total",
+              "${cart.cart.tests.length + cart.cart.packages.length} Items in Total",
               style: kTextStyle.copyWith(
                   fontSize: 16, color: kText, fontWeight: FontWeight.w500),
             ),

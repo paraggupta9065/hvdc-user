@@ -139,11 +139,7 @@ class Header extends StatelessWidget {
                   child: Center(
                     child: Text(
                       "Next",
-                      style: TextStyle(
-                        color: kWhite,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
+                      style: kTextStyle.copyWith(color: kWhite),
                     ),
                   ),
                 ),
@@ -276,7 +272,7 @@ class Banner extends StatelessWidget {
             child: Container(
                 height: 650,
                 width: 700,
-                decoration: BoxDecoration(color: kWhite),
+                decoration: const BoxDecoration(color: kWhite),
                 child: Padding(
                   padding: const EdgeInsets.all(3),
                   child: Row(

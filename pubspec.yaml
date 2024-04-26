@@ -2,7 +2,7 @@ name: hvdc_user
 description: A new Flutter project.
 publish_to: 'none' 
 
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: '>=3.1.4 <4.0.0'
@@ -24,6 +24,15 @@ dependencies:
   wordpress_client: ^8.4.1
   flutter_svg: ^2.0.10+1
   lottie: ^2.7.0
+  badges: ^3.1.2
+  tiny_alert: ^1.1.1
+  fluttertoast: ^8.2.5
+  carousel_slider: ^4.2.1
+  image_picker_ios: ^0.8.9+1
+  image_picker: ^1.0.8
+  dio: ^5.4.3+1
+  flutter_widget_from_html: ^0.14.11
+  flutter_faq: ^1.0.1+1
 
 dev_dependencies:
   flutter_test:

@@ -13,6 +13,7 @@ class ArticleController extends GetxController {
 
   initArticles() async {
     isLoading.value = true;
+    await getCategories();
     await getPosts();
     isLoading.value = false;
   }
@@ -41,7 +42,8 @@ class ArticleController extends GetxController {
 
   Future<void> getPosts() async {
     try {
-      await getCategories();
+      isLoading.value = true;
+
       final request = ListPostRequest(
         page: 1,
         perPage: 10,
@@ -55,6 +57,8 @@ class ArticleController extends GetxController {
     } catch (e) {
       kShowSnackbar(title: "Error !", message: e.toString());
       rethrow;
+    } finally {
+      isLoading.value = false;
     }
   }
 

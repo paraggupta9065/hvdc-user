@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-const Color kGreen = Color(0xff4CAF50);
+// const Color kGreen = Color(0xff4CAF50);
+const Color kGreen = Color(0xff99BC85);
+const Color kRed = Color.fromARGB(255, 213, 1, 1);
 Color kText = const Color(0xff333333);
 const Color kWhite = Colors.white;
 Color kNavy = HexColor('#002f6c');

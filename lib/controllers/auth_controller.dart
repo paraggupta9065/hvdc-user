@@ -19,25 +19,25 @@ class AuthController extends GetxController {
   ]);
   Box box = Hive.box('user');
   Future login() async {
-    try {
-      final GoogleSignInAccount? googleAccount = await googleSignIn.signIn();
+    // try {
+    final GoogleSignInAccount? googleAccount = await googleSignIn.signIn();
 
-      final GoogleSignInAuthentication googleAuthentication =
-          await googleAccount!.authentication;
+    final GoogleSignInAuthentication googleAuthentication =
+        await googleAccount!.authentication;
 
-      String endpoint = "/user/login/";
+    String endpoint = "/user/login/";
 
-      dynamic response = await ApiHelper.post(endpoint, {
-        "token": googleAuthentication.accessToken.toString(),
-      }, headers: {
-        "Content-Type": "application/json"
-      });
-      box.put("token", response['access_token']);
-      box.put("refresh_token", response['refresh_token']);
-    } catch (e) {
-      print(e);
-      kShowSnackbar(title: "Error !", message: e.toString());
-    }
+    dynamic response = await ApiHelper.post(endpoint, {
+      "token": googleAuthentication.accessToken.toString(),
+    }, headers: {
+      "Content-Type": "application/json"
+    });
+    box.put("token", response['access_token']);
+    box.put("refresh_token", response['refresh_token']);
+    // } catch (e) {
+    //   print(e);
+    //   kShowSnackbar(title: "Error !", message: e.toString());
+    // }
   }
 
   bool isLogin() {

@@ -2,6 +2,8 @@
 //
 //     final cart = cartFromJson(jsonString);
 
+import 'package:hvdc_user/models/packages.dart';
+
 import 'test.dart';
 
 class CartModel {
@@ -27,6 +29,7 @@ class CartModel {
 class CartClass {
   int id;
   List<Test> tests;
+  List<Packages> packages;
   DateTime dateAdded;
   int user;
 
@@ -35,11 +38,14 @@ class CartClass {
     required this.tests,
     required this.dateAdded,
     required this.user,
+    required this.packages,
   });
 
   factory CartClass.fromJson(Map<String, dynamic> json) => CartClass(
         id: json["id"],
         tests: List<Test>.from(json["tests"].map((x) => Test.fromJson(x))),
+        packages: List<Packages>.from(
+            json["packages"].map((x) => Packages.fromJson(x))),
         dateAdded: DateTime.parse(json["date_added"]),
         user: json["user"],
       );

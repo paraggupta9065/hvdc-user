@@ -65,38 +65,50 @@ class _ArticlesState extends State<Articles> {
                               physics: const ScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: kGreen,
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
-                                    color:
-                                        articleController.selectedIndex.value ==
-                                                index
-                                            ? kGreen
-                                            : kWhite,
-                                  ),
-                                  margin: const EdgeInsets.only(right: 16),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Center(
-                                    child: Text(
-                                      articleController
-                                              .categories[index].name ??
-                                          "",
-                                      style: TextStyle(
-                                        color: articleController
-                                                    .selectedIndex.value !=
-                                                index
-                                            ? kGreen
-                                            : kWhite,
-                                        fontSize: 16,
+                                return Obx(() => InkWell(
+                                      onTap: () {
+                                        articleController.selectedIndex.value =
+                                            index;
+
+                                        articleController.getPosts();
+                                        setState(() {});
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: kGreen,
+                                            width: 1,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color: articleController
+                                                      .selectedIndex.value ==
+                                                  index
+                                              ? kGreen
+                                              : kWhite,
+                                        ),
+                                        margin:
+                                            const EdgeInsets.only(right: 16),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: Center(
+                                          child: Text(
+                                            articleController
+                                                    .categories[index].name ??
+                                                "",
+                                            style: TextStyle(
+                                              color: articleController
+                                                          .selectedIndex
+                                                          .value !=
+                                                      index
+                                                  ? kGreen
+                                                  : kWhite,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                );
+                                    ));
                               },
                             ),
                           ),
@@ -134,7 +146,7 @@ class _ArticlesState extends State<Articles> {
                                   ),
                                 ),
                                 Text(
-                                  'See All',
+                                  '',
                                   style: TextStyle(
                                     color: Color(0xFF333333),
                                     fontSize: 14,
@@ -154,8 +166,14 @@ class _ArticlesState extends State<Articles> {
                               physics: const ScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext context, int index) {
-                                return ArticleCard(
-                                  post: articleController.trandingPosts[index],
+                                return InkWell(
+                                  onTap: () => context.push(
+                                    "/article/${articleController.trandingPosts[index].id}",
+                                  ),
+                                  child: ArticleCard(
+                                    post:
+                                        articleController.trandingPosts[index],
+                                  ),
                                 );
                               },
                             ),
@@ -237,7 +255,7 @@ class ArticleTile extends StatelessWidget {
             child: Container(
               height: 110,
               width: 110,
-              decoration: BoxDecoration(color: kGreen),
+              decoration: const BoxDecoration(color: kGreen),
               child: Image.network(
                 post.featuredImageUrl ??
                     "https://www.trschools.com/templates/imgs/default_placeholder.png",

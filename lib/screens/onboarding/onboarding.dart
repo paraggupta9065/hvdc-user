@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hvdc_user/controllers/onboarding.dart';
 import 'package:hvdc_user/utils/colors.dart';
 
+import '../../utils/style.dart';
+
 class Onbording extends StatefulWidget {
   const Onbording({super.key});
 
@@ -61,7 +63,7 @@ class _OnbordingState extends State<Onbording> {
                                     BorderRadius.all(Radius.circular(12)))),
                       ),
                       onPressed: () => onboardingController.nextPage(),
-                      child: SizedBox(
+                      child: const SizedBox(
                         height: 40,
                         width: double.maxFinite,
                         child: Center(
@@ -86,11 +88,7 @@ class _OnbordingState extends State<Onbording> {
                           child: Center(
                             child: Text(
                               "Skip",
-                              style: TextStyle(
-                                color: kGreen,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ),
+                              style: kTextStyle.copyWith(color: kGreen),
                             ),
                           ),
                         )),
@@ -121,7 +119,7 @@ class _OnbordingState extends State<Onbording> {
           ],
         ),
         const SizedBox(height: 80),
-        Text(
+        const Text(
           """Health checks &\nconsultations easily\nanywhere anytime""",
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -154,7 +152,7 @@ class _OnbordingState extends State<Onbording> {
           ],
         ),
         const SizedBox(height: 80),
-        Text(
+        const Text(
           """Thousands of\ndoctors & experts to\nhelp your health!""",
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -187,7 +185,7 @@ class _OnbordingState extends State<Onbording> {
           ],
         ),
         const SizedBox(height: 80),
-        Text(
+        const Text(
           """Let’s start living\nhealthy and well\nwith us right now!""",
           textAlign: TextAlign.center,
           style: TextStyle(

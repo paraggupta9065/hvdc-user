@@ -9,12 +9,12 @@ Container kContainer({
 }) {
   return Container(
     decoration: BoxDecoration(
+      color: color,
       border: Border.all(
         color: kWhite,
         width: 1,
       ),
       borderRadius: BorderRadius.circular(12),
-      color: color,
       boxShadow: [
         BoxShadow(
           color: kText.withOpacity(0.1),

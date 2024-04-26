@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +13,8 @@ import '../utils/colors.dart';
 import '../utils/loading.dart';
 import '../utils/style.dart';
 import 'dart:math' as math;
+
+import 'home/mobile_home.dart';
 
 class ListTests extends StatefulWidget {
   const ListTests(
@@ -35,38 +38,43 @@ class _ListTestsState extends State<ListTests> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          appBar: KAppBar(widget.categoryName),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Obx(
-              () => testsController.isLoadingTests.value
-                  ? const Center(
-                      child: KLoading(),
-                    )
-                  : SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 20),
-                          ListView.builder(
-                            itemCount: testsController.tests.length,
-                            shrinkWrap: true,
-                            physics: const ScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              Test test = testsController.tests[index];
+        appBar: KAppBar(widget.categoryName),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Obx(
+            () => testsController.isLoadingTests.value
+                ? const Center(
+                    child: KLoading(),
+                  )
+                : SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 20),
+                        ListView.builder(
+                          itemCount: testsController.tests.length,
+                          shrinkWrap: true,
+                          physics: const ScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) {
+                            Test test = testsController.tests[index];
 
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 10.0),
-                                child: Obx(() {
-                                  return listTestTile(test, index);
-                                }),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: Obx(() {
+                                return listTestTile(test, index);
+                              }),
+                            );
+                          },
+                        ),
+                      ],
                     ),
-            ),
-          )),
+                  ),
+          ),
+        ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: BottomCartWidth(isLoading: testsController.isLoadingTests),
+        ),
+      ),
     );
   }
 
@@ -96,15 +104,79 @@ class _ListTestsState extends State<ListTests> {
                           color: kText,
                           fontWeight: FontWeight.w400),
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      test.testType,
-                      style: kTextStyle.copyWith(
-                          fontSize: 14,
-                          color: kText,
-                          fontWeight: FontWeight.w400),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        const Icon(
+                          FontAwesomeIcons.spoon,
+                          color: kGreen,
+                          size: 12,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          test.fasting,
+                          style: kTextStyle.copyWith(
+                              fontSize: 12,
+                              color: kText,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 3),
+                    Row(
+                      children: [
+                        const Icon(
+                          FontAwesomeIcons.peopleGroup,
+                          color: kGreen,
+                          size: 12,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          test.gender,
+                          style: kTextStyle.copyWith(
+                              fontSize: 12,
+                              color: kText,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 3),
+                    Row(
+                      children: [
+                        const Icon(
+                          FontAwesomeIcons.clock,
+                          color: kGreen,
+                          size: 12,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          test.reportTime,
+                          style: kTextStyle.copyWith(
+                              fontSize: 12,
+                              color: kText,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 3),
+                    Row(
+                      children: [
+                        const Icon(
+                          FontAwesomeIcons.baby,
+                          color: kGreen,
+                          size: 15,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          test.age,
+                          style: kTextStyle.copyWith(
+                              fontSize: 12,
+                              color: kText,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
@@ -172,7 +244,7 @@ class _ListTestsState extends State<ListTests> {
                       setState(() {
                         test.inCart = true;
                       });
-                      cartController.addToCart(test.id);
+                      cartController.addToCart(test: test.id);
                     },
                     child: Text(
                       "Add to cart",

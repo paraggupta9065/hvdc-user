@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:hvdc_user/controllers/address_controller.dart';
 import 'package:hvdc_user/controllers/cart_controller.dart';
 import 'package:hvdc_user/controllers/order_controller.dart';
+import 'package:hvdc_user/controllers/packages_controller.dart';
 import 'package:hvdc_user/controllers/patient_controller.dart';
+import 'package:hvdc_user/controllers/upload_prescription.dart';
 import 'package:hvdc_user/models/banner.dart';
 import 'package:hvdc_user/screens/home/homepage.dart';
 
@@ -20,16 +23,22 @@ class HomepageController extends GetxController {
   PatientController patientController = Get.put(PatientController());
   final ArticleController articleController = Get.put(ArticleController());
   final OrderController orderController = Get.put(OrderController());
+  final UploadPrescriptionC uploadPrescription = Get.put(UploadPrescriptionC());
+  final PackagesController packagesController = Get.put(PackagesController());
+
+  PageController pageController = PageController();
 
   RxBool isLoading = RxBool(false);
 
   Future<void> initHomepage() async {
     getCategories();
+    uploadPrescription.getPrescriptions();
     cartController.getCart();
     addressController.getAddressCart();
     patientController.getPatientCart();
     articleController.initArticles();
     orderController.getOrders();
+    packagesController.getPackages();
     isLoading.value = true;
     await authController.getProfile();
     await getBanner();

@@ -231,9 +231,9 @@ class TestBookingScreen extends StatelessWidget {
                         child: Text(
                           'Apply',
                           style: kTextStyle.copyWith(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                              color: kGreen),
+                            fontSize: 18,
+                            color: kGreen,
+                          ),
                         ),
                       ),
                     ),

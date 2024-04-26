@@ -13,13 +13,14 @@ class KLoading extends StatelessWidget {
 }
 
 class KLoadingCircular extends StatelessWidget {
-  const KLoadingCircular({super.key});
+  const KLoadingCircular({super.key, this.color = kGreen});
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
         child: CircularProgressIndicator(
-      color: kGreen,
+      color: color,
     ));
   }
 }

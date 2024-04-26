@@ -55,6 +55,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
  signingConfigs {
@@ -92,4 +93,5 @@ flutter {
 
 dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.4.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
 }

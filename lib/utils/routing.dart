@@ -7,12 +7,15 @@ import 'package:hvdc_user/screens/book_apointment/book_apointment_page.dart';
 import 'package:hvdc_user/screens/bookings.dart';
 import 'package:hvdc_user/screens/bottom_navigation_page.dart';
 import 'package:hvdc_user/screens/cart.dart';
+import 'package:hvdc_user/screens/home/mobile_home.dart';
 import 'package:hvdc_user/screens/list_tests.dart';
 import 'package:hvdc_user/screens/notification.dart';
 import 'package:hvdc_user/screens/onboarding/onboarding.dart';
+import 'package:hvdc_user/screens/prescription_list.dart';
 import 'package:hvdc_user/screens/profile_screens/profile_page.dart';
 import 'package:hvdc_user/screens/profile_screens/test_booking_screen.dart';
 import 'package:hvdc_user/screens/search_page.dart';
+import 'package:hvdc_user/screens/upload_prescription.dart';
 import 'package:hvdc_user/utils/article.dart';
 import 'package:hvdc_user/utils/articles.dart';
 
@@ -115,6 +118,12 @@ final router = GoRouter(
           ),
           GoRoute(
               path: 'bookings', builder: (context, state) => const Bookings()),
+          GoRoute(
+              path: 'upload_prescription',
+              builder: (context, state) => const UploadPrescriptionScreen()),
+          GoRoute(
+              path: 'prescription_list',
+              builder: (context, state) => const PrescriptionList()),
         ]),
   ],
 );

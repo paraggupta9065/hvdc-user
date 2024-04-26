@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hvdc_user/utils/loading.dart';
+import 'package:hvdc_user/utils/responsive.dart';
 
 import '../controllers/order_controller.dart';
 import '../models/orders.dart';
@@ -35,6 +36,7 @@ class _BookingsState extends State<Bookings> {
 
   ListView listView() {
     return ListView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       shrinkWrap: true,
       physics: const ScrollPhysics(),
       itemCount: orderController.orders.length,
@@ -62,12 +64,23 @@ class _BookingsState extends State<Bookings> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    order.patient.name,
-                    style: kTextStyle.copyWith(
-                        fontSize: 18,
-                        color: kText,
-                        fontWeight: FontWeight.w400),
+                  SizedBox(
+                    width: kWidth(78),
+                    child: Text(
+                      order.status == 'pending'
+                          ? "${order.patient.name}'s booking has been successfully reserved"
+                          : order.status == 'processing'
+                              ? "Your sample pickup is currently in progress"
+                              : order.status == 'completed'
+                                  ? "Your sample has been successfully collected."
+                                  : order.status == 'completed'
+                                      ? "Your sample has been successfully collected."
+                                      : "Your test has been canceled.",
+                      style: kTextStyle.copyWith(
+                          fontSize: 18,
+                          color: kText,
+                          fontWeight: FontWeight.w400),
+                    ),
                   ),
                   Text(
                     order.address.street,
@@ -92,7 +105,7 @@ class _BookingsState extends State<Bookings> {
               ),
             ],
           )),
-      height: 100,
+      height: 150,
       width: double.infinity,
     );
   }
