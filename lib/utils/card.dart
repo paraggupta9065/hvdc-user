@@ -6,14 +6,17 @@ Container kContainer({
   double? width,
   double? height,
   Color color = kWhite,
+  bool border = true,
 }) {
   return Container(
     decoration: BoxDecoration(
       color: color,
-      border: Border.all(
-        color: kWhite,
-        width: 1,
-      ),
+      border: border
+          ? Border.all(
+              color: kWhite,
+              width: 1,
+            )
+          : null,
       borderRadius: BorderRadius.circular(12),
       boxShadow: [
         BoxShadow(

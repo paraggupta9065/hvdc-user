@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:hvdc_user/controllers/tests_controller.dart';
 import 'package:hvdc_user/models/test.dart';
 import 'package:hvdc_user/utils/appBar.dart';
@@ -11,10 +12,13 @@ import '../controllers/cart_controller.dart';
 import '../utils/card.dart';
 import '../utils/colors.dart';
 import '../utils/loading.dart';
+import '../utils/responsive.dart';
 import '../utils/style.dart';
 import 'dart:math' as math;
 
+import 'home/header.dart';
 import 'home/mobile_home.dart';
+import 'home/web_home.dart';
 
 class ListTests extends StatefulWidget {
   const ListTests(
@@ -38,49 +42,89 @@ class _ListTestsState extends State<ListTests> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: KAppBar(widget.categoryName),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Obx(
-            () => testsController.isLoadingTests.value
-                ? const Center(
-                    child: KLoading(),
-                  )
-                : SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 20),
-                        ListView.builder(
-                          itemCount: testsController.tests.length,
-                          shrinkWrap: true,
-                          physics: const ScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index) {
-                            Test test = testsController.tests[index];
+          appBar: kWeb ? null : KAppBar(widget.categoryName),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                if (kWeb) Header(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: kWeb ? 150 : 20),
+                  child: Obx(
+                    () => testsController.isLoadingTests.value
+                        ? const Center(
+                            child: KLoading(),
+                          )
+                        : Column(
+                            children: [
+                              const SizedBox(height: 20),
+                              Visibility(
+                                visible: !kWeb,
+                                child: ListView.builder(
+                                  itemCount: testsController.tests.length,
+                                  shrinkWrap: true,
+                                  physics: const ScrollPhysics(),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    Test test = testsController.tests[index];
 
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 10.0),
-                              child: Obx(() {
-                                return listTestTile(test, index);
-                              }),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 10.0),
+                                      child: Obx(() {
+                                        return listTestTile(test, index);
+                                      }),
+                                    );
+                                  },
+                                ),
+                              ),
+                              Visibility(
+                                visible: kWeb,
+                                child: GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const ScrollPhysics(),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    childAspectRatio: 1.7,
+                                    mainAxisSpacing: 20,
+                                    crossAxisSpacing: 20,
+                                  ),
+                                  itemCount: testsController.tests.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    Test test = testsController.tests[index];
+
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 10.0),
+                                      child: Obx(() {
+                                        return listTestTile(test, index);
+                                      }),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                   ),
+                ),
+              ],
+            ),
+          )
+          // bottomNavigationBar: Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: BottomCartWidth(isLoading: testsController.isLoadingTests),
+          // ),
           ),
-        ),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: BottomCartWidth(isLoading: testsController.isLoadingTests),
-        ),
-      ),
     );
   }
 
   Container listTestTile(Test test, int index) {
     CartController cartController = Get.put(CartController());
     bool isOpen = testsController.openIndex.value == index;
+    if (kWeb) {
+      isOpen = true;
+    }
 
     return kContainer(
       child: Padding(
@@ -89,6 +133,7 @@ class _ListTestsState extends State<ListTests> {
           vertical: 15,
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

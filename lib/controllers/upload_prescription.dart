@@ -4,9 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/instance_manager.dart';
+import 'package:get/route_manager.dart';
 import 'package:hvdc_user/controllers/auth_controller.dart';
 import 'package:hvdc_user/models/cart.dart';
 import 'package:hvdc_user/models/prescription.dart';
+import 'package:hvdc_user/utils/responsive.dart';
 import 'package:hvdc_user/utils/routing.dart';
 import 'package:hvdc_user/utils/toast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -21,12 +23,12 @@ class UploadPrescriptionC extends GetxController {
   final ImagePicker picker = ImagePicker();
   XFile? image;
 
-  pickImageCamera() async {
-    image = await picker.pickImage(source: ImageSource.gallery);
-    if (image == null) {
-      kShowSnackbar(title: "", message: "Please select image !");
-    }
-  }
+  // pickImageCamera() async {
+  //   image = await picker.pickImage(source: ImageSource.gallery);
+  //   if (image == null) {
+  //     kShowSnackbar(title: "", message: "Please select image !");
+  //   }
+  // }
 
   pickImageGallary() async {
     try {
@@ -39,21 +41,38 @@ class UploadPrescriptionC extends GetxController {
       String url = mainUrl + endpoint;
 
       String? token = getToken();
+      var formData;
+      if (!kWeb) {
+        var formData = FormData.fromMap({
+          'prescription':
+              await MultipartFile.fromFile(image!.path, filename: image!.name),
+        });
+      } else {
+        XFile file = XFile(image!.path);
+        var formData = FormData.fromMap({
+          'prescription': MultipartFile.fromBytes(
+            await file.readAsBytes(),
+            filename: image!.name,
+          ),
+        });
+      }
 
-      var formData = FormData.fromMap({
-        'prescription':
-            await MultipartFile.fromFile(image!.path, filename: image!.name),
-      });
       final response = await Dio().post(url,
           data: formData,
           options: Options(
-            headers: {"Authorization": "Bearer $token"},
+            headers: {
+              "Authorization": "Bearer $token",
+              'Content-Type': 'multipart/form-data',
+            },
           ));
+
       if (response.statusCode == 201) {
-        router.pop();
-        router.pop();
+        Get.back();
+        Get.back();
         kShowSnackbar(title: "", message: response.data['detail']);
       }
+    } on DioException catch (e) {
+      kShowSnackbar(title: "", message: e.response?.data["detail"]);
     } catch (e) {
       kShowSnackbar(title: "", message: "Something went wrong!");
     }

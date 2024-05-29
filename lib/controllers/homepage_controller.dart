@@ -46,6 +46,28 @@ class HomepageController extends GetxController {
     isLoading.value = false;
   }
 
+  Future<void> initHomepageWeb() async {
+    try {
+      bool isLogin = authController.isLogin();
+
+      if (isLogin) {
+        cartController.getCart();
+        uploadPrescription.getPrescriptions();
+        addressController.getAddressCart();
+        patientController.getPatientCart();
+        orderController.getOrders();
+      }
+
+      isLoading.value = true;
+      await getBanner();
+      getCategories();
+      await getPathologies();
+      packagesController.getPackages();
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   RxBool isLoadingBanner = RxBool(false);
   List<BannerModel> banners = [];
 
@@ -60,7 +82,6 @@ class HomepageController extends GetxController {
         endpoint,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer $token"
         },
       );
       List rawBanners = response['results'];
@@ -87,7 +108,6 @@ class HomepageController extends GetxController {
         endpoint,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer $token"
         },
       );
       List rawCategories = response['results'];
@@ -114,7 +134,6 @@ class HomepageController extends GetxController {
         endpoint,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer $token"
         },
       );
       List rawPathologies = response['results'];

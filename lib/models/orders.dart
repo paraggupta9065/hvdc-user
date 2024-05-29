@@ -9,6 +9,7 @@ class Order {
   DateTime dateAdded;
   String status;
   int user;
+  String report;
   int total_price;
 
   Order({
@@ -21,30 +22,8 @@ class Order {
     required this.status,
     required this.user,
     required this.total_price,
+    required this.report,
   });
-
-  Order copyWith({
-    int? id,
-    List<Test>? tests,
-    Address? address,
-    Patient? patient,
-    Slot? slot,
-    DateTime? dateAdded,
-    String? status,
-    int? user,
-    int? total_price,
-  }) =>
-      Order(
-        id: id ?? this.id,
-        tests: tests ?? this.tests,
-        address: address ?? this.address,
-        patient: patient ?? this.patient,
-        slot: slot ?? this.slot,
-        dateAdded: dateAdded ?? this.dateAdded,
-        status: status ?? this.status,
-        user: user ?? this.user,
-        total_price: total_price ?? 0,
-      );
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
         id: json["id"],
@@ -56,6 +35,7 @@ class Order {
         status: json["status"],
         user: json["user"],
         total_price: json["total_price"] ?? 0,
+        report: json["report"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

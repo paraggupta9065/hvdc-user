@@ -7,13 +7,13 @@ import 'package:tiny_alert/tiny_alert.dart';
 kShowSnackbar({
   required String title,
   required String message,
-  int duration = 1,
+  int duration = 3,
 }) {
   return Fluttertoast.showToast(
     msg: message,
     toastLength: Toast.LENGTH_SHORT,
     gravity: ToastGravity.CENTER,
-    timeInSecForIosWeb: 1,
+    timeInSecForIosWeb: duration,
     backgroundColor: Colors.red,
     textColor: Colors.white,
     fontSize: 16.0,

@@ -58,51 +58,46 @@ class _PrescriptionListState extends State<PrescriptionList> {
                                       "Cart Total: ₹ ${prescription.total}",
                                     ),
                               const SizedBox(height: 10),
-                              Obx(
-                                () => prescription.status == 'pending'
-                                    ? const SizedBox()
-                                    : TextButton(
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all(kGreen),
-                                          shape: MaterialStateProperty.all(
-                                              const RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(
-                                                              12)))),
-                                        ),
-                                        onPressed: () {
-                                          uploadPrescription
-                                              .addPrescriptionToCart(
-                                                  prescription.id);
-                                        },
-                                        child: SizedBox(
-                                          height: 40,
-                                          width: double.maxFinite,
-                                          child: Center(
-                                            child: uploadPrescription
-                                                        .isLoadingButton
-                                                        .value &&
-                                                    uploadPrescription
-                                                            .isLoadingButtonId
-                                                            .value ==
-                                                        prescription.id
-                                                ? const KLoadingCircular(
-                                                    color: kWhite,
-                                                  )
-                                                : const Text(
-                                                    "Add all items to cart",
-                                                    style: TextStyle(
-                                                      color: kWhite,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
-                                                  ),
+                              // Obx(
+                              //   () => prescription.status == 'pending'
+                              //       ? const SizedBox()
+                              //       :
+                              TextButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(kGreen),
+                                  shape: MaterialStateProperty.all(
+                                      const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(12)))),
+                                ),
+                                onPressed: () {
+                                  uploadPrescription
+                                      .addPrescriptionToCart(prescription.id);
+                                },
+                                child: SizedBox(
+                                  height: 40,
+                                  width: double.maxFinite,
+                                  child: Center(
+                                    child: uploadPrescription
+                                                .isLoadingButton.value &&
+                                            uploadPrescription
+                                                    .isLoadingButtonId.value ==
+                                                prescription.id
+                                        ? const KLoadingCircular(
+                                            color: kWhite,
+                                          )
+                                        : const Text(
+                                            "Add all items to cart",
+                                            style: TextStyle(
+                                              color: kWhite,
+                                              fontWeight: FontWeight.w400,
+                                            ),
                                           ),
-                                        ),
-                                      ),
+                                  ),
+                                ),
                               ),
+                              // ),
                             ],
                           )),
                     ),

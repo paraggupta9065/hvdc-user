@@ -9,3 +9,4 @@ double kHeight(double height) {
 }
 
 final kMobile = Get.context!.isPhone;
+final kWeb = !kMobile;

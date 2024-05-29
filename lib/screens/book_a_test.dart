@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:hvdc_user/controllers/homepage_controller.dart';
 import '../models/category.dart';
 import '../utils/colors.dart';
 import '../utils/loading.dart';
+import '../utils/routing.dart';
 import '../utils/style.dart';
 import 'home/homepage.dart';
 import 'home/mobile_home.dart';
@@ -24,76 +25,79 @@ class _BookATestState extends State<BookATest> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      InkWell(
-                        child: const Icon(
-                          Icons.arrow_back,
-                          size: 25,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
+                          child: const Icon(
+                            Icons.arrow_back,
+                            size: 25,
+                          ),
+                          onTap: () {
+                            Get.back();
+                          },
                         ),
-                        onTap: () {
-                          context.pop();
-                        },
-                      ),
-                      const SizedBox(width: 20),
-                      Text(
-                        "Book a Test",
-                        style: kTextStyle.copyWith(
-                            fontSize: 16,
-                            color: kText,
-                            fontWeight: FontWeight.w500),
-                      )
-                    ],
-                  ),
-                  InkWell(
-                    child: const Icon(
-                      CupertinoIcons.search,
-                      size: 25,
+                        const SizedBox(width: 20),
+                        Text(
+                          "Book a Test",
+                          style: kTextStyle.copyWith(
+                              fontSize: 16,
+                              color: kText,
+                              fontWeight: FontWeight.w500),
+                        )
+                      ],
                     ),
-                    onTap: () {
-                      Get.back();
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30),
-              Obx(() {
-                if (homepageController.isLoadingCategories.value) {
-                  return const KLoading();
-                }
-
-                List<Category> categories = homepageController.categories;
-                return GridView.builder(
-                  shrinkWrap: true,
-                  physics: const ScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                  ),
-                  itemCount: categories.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    Category category = categories[index];
-                    return CircularCard(
-                      image: category.image,
-                      text: category.categoryName,
+                    InkWell(
+                      child: const Icon(
+                        CupertinoIcons.search,
+                        size: 25,
+                      ),
                       onTap: () {
-                        context.push(
-                            "/tests?category_id=${category.id}&category_name=${category.categoryName}");
+                        Get.toNamed("/search");
                       },
-                    );
-                  },
-                );
-              })
-            ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 30),
+                Obx(() {
+                  if (homepageController.isLoadingCategories.value) {
+                    return const KLoading();
+                  }
+
+                  List<Category> categories = homepageController.categories;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                    ),
+                    itemCount: categories.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      Category category = categories[index];
+                      return CircularCard(
+                        image: category.image,
+                        text: category.categoryName,
+                        onTap: () {
+                          Get.toNamed(
+                              "/tests?category_id=${category.id}&category_name=${category.categoryName}");
+                        },
+                      );
+                    },
+                  );
+                })
+              ],
+            ),
           ),
         ),
       ),

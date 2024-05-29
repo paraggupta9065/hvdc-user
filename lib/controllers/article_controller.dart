@@ -1,8 +1,11 @@
 import 'package:get/get.dart';
 import 'package:wordpress_client/wordpress_client.dart';
 
+import '../models/test.dart';
+import '../utils/request_handler.dart';
 import '../utils/toast.dart';
 import '../utils/urls.dart';
+import 'auth_controller.dart';
 
 class ArticleController extends GetxController {
   final client = WordpressClient.initialize(baseUrl: wordpressUrl);
@@ -74,6 +77,32 @@ class ArticleController extends GetxController {
     } catch (e) {
       kShowSnackbar(title: "Error !", message: e.toString());
       rethrow;
+    }
+  }
+
+  List<Test> recommendationSearch = [];
+  RxBool isLoadingRecommendation = RxBool(false);
+  Future getTestsRecommendation({required String key}) async {
+    try {
+      isLoadingRecommendation.value = true;
+      String endpoint = "/pathology_test/?key=$key";
+
+      String? token = getToken();
+
+      dynamic response = await ApiHelper.get(
+        endpoint,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      );
+      List rawTests = response['results'];
+      recommendationSearch = [];
+      recommendationSearch = List<Test>.generate(
+          rawTests.length, (index) => Test.fromJson(rawTests[index]));
+    } catch (e) {
+      kShowSnackbar(title: "Error !", message: e.toString());
+    } finally {
+      isLoadingRecommendation.value = false;
     }
   }
 }

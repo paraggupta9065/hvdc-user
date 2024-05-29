@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:hvdc_user/controllers/auth_controller.dart';
 import 'package:hvdc_user/utils/colors.dart';
+import 'package:hvdc_user/utils/responsive.dart';
+
+import '../../utils/routing.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
@@ -27,41 +30,46 @@ class SignUp extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 50),
-        InkWell(
-          onTap: () async {
-            AuthController authController = Get.put(AuthController());
-            await authController.login();
-            context.push("/home");
-          },
-          child: Container(
-            height: 50,
-            width: Get.width - 40,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(12),
+        Padding(
+          padding: kWeb
+              ? const EdgeInsets.symmetric(horizontal: 500)
+              : const EdgeInsets.symmetric(horizontal: 0),
+          child: InkWell(
+            onTap: () async {
+              AuthController authController = Get.put(AuthController());
+              await authController.login();
+              Get.toNamed("/home");
+            },
+            child: Container(
+              height: 50,
+              width: Get.width - 40,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(12),
+                ),
+                border: Border.all(
+                  width: 1.5,
+                  color: kGreen,
+                ),
               ),
-              border: Border.all(
-                width: 1.5,
-                color: kGreen,
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Image.asset(
-                    "assets/google.png",
-                    height: 30,
-                  ),
-                  const Text(
-                    "Sign in with Google",
-                  ),
-                  Image.asset(
-                    "assets/arrow.png",
-                    height: 20,
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Image.asset(
+                      "assets/google.png",
+                      height: 30,
+                    ),
+                    const Text(
+                      "Sign in with Google",
+                    ),
+                    Image.asset(
+                      "assets/arrow.png",
+                      height: 20,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

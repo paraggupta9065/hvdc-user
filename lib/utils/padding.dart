@@ -1,3 +1,11 @@
 import 'package:flutter/material.dart';
 
-const kWebPadding = EdgeInsets.symmetric(horizontal: 150);
+import 'responsive.dart';
+
+final kWebPadding = kWeb
+    ? const EdgeInsets.symmetric(
+        horizontal: 150,
+      )
+    : const EdgeInsets.symmetric(
+        horizontal: 20,
+      );

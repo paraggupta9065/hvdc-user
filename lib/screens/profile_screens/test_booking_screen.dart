@@ -237,21 +237,15 @@ class TestBookingScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    suffixIconConstraints: const BoxConstraints(
-                      minWidth: 24, // Minimum width of the suffix icon
-                      minHeight: 24, // Minimum height of the suffix icon
-                    ),
-                    // contentPadding:
-                    hintText: 'Enter your coupon',
+                    hintText: ' Enter your coupon',
                     hintStyle: kTextStyle.copyWith(
                       fontSize: 18,
                       fontWeight: FontWeight.w300,
                     ),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none),
-                    fillColor: Colors.white,
-                    filled: true,
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
                 ),
               ),
@@ -303,6 +297,10 @@ class TestBookingScreen extends StatelessWidget {
                       )
                     ],
                   ))
+         
+         
+         
+         
             ],
           ),
         ),

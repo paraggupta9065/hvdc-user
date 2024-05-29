@@ -1,10 +1,8 @@
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:hvdc_user/models/user.dart';
 import 'package:hvdc_user/utils/request_handler.dart';
-import 'package:hvdc_user/utils/routing.dart';
 import 'package:hvdc_user/utils/toast.dart';
 
 String? getToken() {
@@ -74,8 +72,8 @@ class AuthController extends GetxController {
     }
   }
 
-  logout() {
-    box.clear();
-    router.go("/sign-up");
+  logout() async {
+    await box.clear();
+    Get.toNamed("/sign-up");
   }
 }

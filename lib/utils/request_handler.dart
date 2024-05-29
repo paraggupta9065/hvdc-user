@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:hvdc_user/controllers/auth_controller.dart';
@@ -48,13 +49,20 @@ class ApiHelper {
       } else {
         if (statusCode == 401) {
           AuthController authController = Get.put(AuthController());
-          authController.logout();
+          bool isLogin = authController.isLogin();
+          if (!kIsWeb) {
+            authController.logout();
+          } else if (isLogin) {
+            authController.logout();
+          }
+          throw Exception("Please login first!");
         } else if (statusCode == 400) {
           throw Exception(body['detail']);
         } else if (statusCode == 404) {
           throw Error.throwWithStackTrace("not_found", StackTrace.current);
+        } else {
+          throw Exception('Request failed with status code: $statusCode');
         }
-        throw Exception('Request failed with status code: $statusCode');
       }
     } catch (e) {
       rethrow;

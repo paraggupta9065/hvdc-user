@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:hvdc_user/utils/appBar.dart';
 import 'package:hvdc_user/utils/colors.dart';
 import 'package:hvdc_user/utils/img_name.dart';
@@ -8,6 +8,7 @@ import 'package:hvdc_user/utils/style.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../../utils/loading.dart';
+import '../../utils/routing.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
@@ -78,12 +79,11 @@ class ProfilePage extends StatelessWidget {
               ),
               const Divider(),
               profileItemList("Notification", notification, () {
-                context.push("/notification");
+                Get.toNamed("/notification");
               }),
               profileItemList("My Test Bookings", testBook, () {
-                context.push('/bookings');
+                Get.toNamed('/bookings');
               }),
-              profileItemList("Order History", orderHistory, () {}),
               profileItemList("Help Center", helpCenter, () {}),
               const SizedBox(height: 40),
             ],
@@ -99,7 +99,9 @@ class ProfilePage extends StatelessWidget {
               borderRadius: BorderRadius.circular(10), // Button border radius
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            authController.logout();
+          },
           child: SizedBox(
             width: double.maxFinite,
             height: 60,

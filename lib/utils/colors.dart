@@ -12,3 +12,4 @@ Color kGreenOpacity = kGreen.withOpacity(0.2);
 Color kGreenOpacityDark = kGreen.withOpacity(0.6);
 Color kGrey = const Color(0xff666666);
 Color kLightButtonGreen = HexColor('#4CAF50');
+Color kBlack = const Color(0xff333333);

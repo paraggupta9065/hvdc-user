@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:hvdc_user/controllers/article_controller.dart';
 import 'package:hvdc_user/utils/colors.dart';
 import 'package:hvdc_user/utils/date_parser.dart';
@@ -8,6 +8,7 @@ import 'package:hvdc_user/utils/style.dart';
 import 'package:wordpress_client/wordpress_client.dart';
 
 import 'loading.dart';
+import 'routing.dart';
 
 class Articles extends StatefulWidget {
   const Articles({super.key});
@@ -123,7 +124,7 @@ class _ArticlesState extends State<Articles> {
                           itemBuilder: (BuildContext context, int index) {
                             Post post = articleController.posts[index];
                             return InkWell(
-                              onTap: () => context.push(
+                              onTap: () => Get.toNamed(
                                 "/article/${post.id}",
                               ),
                               child: ArticleTile(
@@ -167,7 +168,7 @@ class _ArticlesState extends State<Articles> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext context, int index) {
                                 return InkWell(
-                                  onTap: () => context.push(
+                                  onTap: () => Get.toNamed(
                                     "/article/${articleController.trandingPosts[index].id}",
                                   ),
                                   child: ArticleCard(

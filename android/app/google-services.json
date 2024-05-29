@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "209249086109",
+    "project_id": "hvdc-firebase",
+    "storage_bucket": "hvdc-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209249086109:android:d06ed7a350deeefa3ac274",
+        "android_client_info": {
+          "package_name": "com.hvdc.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgl5pBxoc8L4HuLuw-z2ehQqYkScG1U0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hvdc_user/models/address.dart';
-import 'package:hvdc_user/models/test.dart';
-import 'package:hvdc_user/screens/cart.dart';
-
 import '../models/cart.dart';
 import '../utils/request_handler.dart';
 import '../utils/toast.dart';
@@ -12,8 +7,9 @@ import 'auth_controller.dart';
 class CartController extends GetxController {
   RxBool isLoadingCart = RxBool(false);
   CartModel? cart;
-  final selectedDate = Rx<DateTime>(DateTime.now());
-  final List slots = [9, 11, 12, 13, 14, 15, 16, 17];
+  final selectedDate =
+      Rx<DateTime>(DateTime.now().add(const Duration(days: 1)));
+  final List slots = [7, 8, 9, 10, 11, 12, 13, 14];
   RxInt selectedSlot = RxInt(9);
 
   Future getCart() async {

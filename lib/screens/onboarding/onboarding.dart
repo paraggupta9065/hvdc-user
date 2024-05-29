@@ -1,11 +1,13 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:hvdc_user/controllers/onboarding.dart';
 import 'package:hvdc_user/utils/colors.dart';
 
+import '../../utils/routing.dart';
 import '../../utils/style.dart';
 
 class Onbording extends StatefulWidget {
@@ -80,7 +82,7 @@ class _OnbordingState extends State<Onbording> {
                     ),
                     TextButton(
                         onPressed: () {
-                          context.push("/sign-up");
+                          Get.toNamed("/sign-up");
                         },
                         child: SizedBox(
                           height: 40,

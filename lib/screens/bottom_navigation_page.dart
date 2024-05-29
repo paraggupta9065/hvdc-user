@@ -23,11 +23,6 @@ class _BottomNavigatorState extends State<BottomNavigator> {
   HomepageController homepageController = Get.put(HomepageController());
   @override
   void initState() {
-    SchedulerBinding.instance.addPostFrameCallback(
-      (timeStamp) {
-        homepageController.initHomepage();
-      },
-    );
     super.initState();
   }
 

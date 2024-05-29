@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 
 import '../models/patient.dart';
 import '../utils/request_handler.dart';
