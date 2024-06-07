@@ -44,7 +44,7 @@ class Footer extends StatelessWidget {
                     Image.asset(
                       height: 50,
                       width: kWidth(10),
-                      "assets/logo2.png",
+                      "assets/logo3.png",
                       fit: BoxFit.cover,
                     ),
                     Row(
@@ -70,13 +70,13 @@ class Footer extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            launchUrl(Uri.parse("https://hvdc.in/blog/"));
+                            launchUrl(Uri.parse("https://blog.hvdc.in/blog/"));
                           },
                           child: const NavbarItem('Articles'),
                         ),
                         InkWell(
                           onTap: () {
-                            launchUrl(Uri.parse("https://hvdc.in/about/"));
+                            launchUrl(Uri.parse("https://blog.hvdc.in/about/"));
                           },
                           child: const NavbarItem('About Us'),
                         ),
@@ -86,14 +86,20 @@ class Footer extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            launchUrl(Uri.parse(
+                                "https://www.instagram.com/hvdc_info/"));
+                          },
                           icon: const Icon(
                             FontAwesomeIcons.instagram,
                             color: kWhite,
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            launchUrl(Uri.parse(
+                                "https://www.facebook.com/profile.php?id=61559747606949"));
+                          },
                           icon: const Icon(
                             FontAwesomeIcons.squareFacebook,
                             color: kWhite,

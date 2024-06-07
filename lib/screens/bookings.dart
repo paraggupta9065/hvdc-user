@@ -42,7 +42,7 @@ class _BookingsState extends State<Bookings> {
                           : listView(),
                 ),
                 const SizedBox(height: 20),
-                Footer(),
+                if (kWeb) Footer(),
               ],
             ),
           )),
@@ -150,7 +150,7 @@ class _BookingsState extends State<Bookings> {
                                     BorderRadius.all(Radius.circular(12)))),
                       ),
                       onPressed: () {
-                        orderController.download(url: order.report);
+                        orderController.downloadWeb(url: order.report);
                       },
                       child: SizedBox(
                         height: 30,

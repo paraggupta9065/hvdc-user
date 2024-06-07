@@ -10,6 +10,7 @@ import 'package:hvdc_user/utils/padding.dart';
 import 'package:hvdc_user/utils/responsive.dart';
 import 'package:hvdc_user/utils/routing.dart';
 import 'package:hvdc_user/utils/style.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../models/prescription.dart';
 import '../utils/appBar.dart';
@@ -75,9 +76,8 @@ class UploadPrescriptionState extends State<UploadPrescriptionScreenWeb> {
                                               Radius.circular(12)))),
                                 ),
                                 onPressed: () {
-                                  kWeb
-                                      ? uploadPrescription.pickImageGallary()
-                                      : selectImageType();
+                                  uploadPrescription.pickImageAndUpload(
+                                      source: ImageSource.gallery);
                                 },
                                 child: SizedBox(
                                   height: 40,
@@ -226,55 +226,5 @@ class UploadPrescriptionState extends State<UploadPrescriptionScreenWeb> {
         )),
       ),
     );
-  }
-
-  selectImageType() {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) => SizedBox(
-            height: kHeight(20),
-            width: kWidth(100),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                InkWell(
-                  onTap: () {
-                    uploadPrescription.pickImageGallary();
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        FontAwesomeIcons.camera,
-                        size: 50,
-                      ),
-                      Text(
-                        "Camera",
-                        style: kTextStyle.copyWith(color: kText),
-                      ),
-                    ],
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    uploadPrescription.pickImageGallary();
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        FontAwesomeIcons.images,
-                        size: 50,
-                      ),
-                      Text(
-                        "Gallary",
-                        style: kTextStyle.copyWith(color: kText),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            )));
   }
 }

@@ -10,7 +10,9 @@ class Order {
   String status;
   int user;
   String report;
-  int total_price;
+  double total_price;
+  double discount;
+  double normal_price;
 
   Order({
     required this.id,
@@ -22,7 +24,9 @@ class Order {
     required this.status,
     required this.user,
     required this.total_price,
+    required this.discount,
     required this.report,
+    required this.normal_price,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
@@ -36,6 +40,8 @@ class Order {
         user: json["user"],
         total_price: json["total_price"] ?? 0,
         report: json["report"] ?? "",
+        discount: json["discount"] ?? 0,
+        normal_price: json["normal_price"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {

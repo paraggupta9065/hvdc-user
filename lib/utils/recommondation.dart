@@ -1,137 +1,49 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:hvdc_user/utils/appBar.dart';
-import 'package:hvdc_user/utils/colors.dart';
-import 'package:hvdc_user/utils/loading.dart';
-import 'package:hvdc_user/utils/responsive.dart';
+import 'package:hvdc_user/utils/card.dart';
 import 'package:hvdc_user/utils/style.dart';
-import 'package:wordpress_client/wordpress_client.dart';
 
 import '../controllers/article_controller.dart';
 import '../controllers/cart_controller.dart';
 import '../models/test.dart';
-import 'card.dart';
+import 'appBar.dart';
+import 'colors.dart';
+import 'responsive.dart';
 
-class Article extends StatefulWidget {
-  const Article({super.key, required this.id});
-  final int id;
+class Recommendation extends StatefulWidget {
+  const Recommendation({super.key});
 
   @override
-  State<Article> createState() => _MyWidgetState();
+  State<Recommendation> createState() => _RecommendationState();
 }
 
-class _MyWidgetState extends State<Article> {
+class _RecommendationState extends State<Recommendation> {
   final ArticleController articleController = Get.put(ArticleController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: KAppBar("Article"),
-      body: SafeArea(
-        child: FutureBuilder(
-          future: articleController.getPost(id: widget.id),
-          builder: (BuildContext context, AsyncSnapshot<Post> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: KLoading());
-            }
+      appBar: kWeb ? null : KAppBar("Recommendation"),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Obx(
+          () => articleController.isLoadingRecommendation.value
+              ? const SizedBox()
+              : ListView.builder(
+                  itemCount: articleController.recommendationSearch.length,
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) {
+                    Test test = articleController.recommendationSearch[index];
 
-            Post post = snapshot.data!;
-            // articleController.client.tags
-            //     .list(
-            //   ListTagRequest(include: post.categories),
-            // )
-            //     .then(
-            //   (value) {
-            //     List<Tag> tags = value.asSuccess().data;
-
-            // if (tags.isEmpty) {
-            articleController.getTestsRecommendation(key: "Blood Test");
-            // } else {
-            //   // Tag tag = tags[0];
-            //   articleController.getTestsRecommendation(
-            //       key: "Blood Test");
-            // }
-            // },
-            // );
-
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      post.title?.parsedText ?? "",
-                      style: kTextStyle.copyWith(fontSize: 18),
-                    ),
-                    const SizedBox(height: 20),
-                    TextButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(kGreen),
-                        shape: MaterialStateProperty.all(
-                            const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12)))),
-                      ),
-                      onPressed: () {
-                        Get.toNamed("/recommendation");
-                      },
-                      child: SizedBox(
-                        height: 40,
-                        width: double.maxFinite,
-                        child: Center(
-                          child: Text(
-                            "Recommended Test",
-                            style: kTextStyle.copyWith(color: kWhite),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Image.network(
-                      post.featuredImageUrl ?? "",
-                      width: kWidth(100),
-                      fit: BoxFit.cover,
-                    ),
-                    Text(
-                      (post.content?.parsedText ?? "")
-                          .replaceAll('\n\n', '\n')
-                          .toString(),
-                      style: kTextStyle,
-                    ),
-                    Text(
-                      "Recommendations",
-                      style: kTextStyle.copyWith(
-                        fontSize: 20,
-                        color: kText,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Obx(
-                      () => articleController.isLoadingRecommendation.value
-                          ? const SizedBox()
-                          : ListView.builder(
-                              itemCount:
-                                  articleController.recommendationSearch.length,
-                              shrinkWrap: true,
-                              physics: const ScrollPhysics(),
-                              itemBuilder: (BuildContext context, int index) {
-                                Test test = articleController
-                                    .recommendationSearch[index];
-
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 10.0),
-                                  child: listTestTile(test, index),
-                                );
-                              },
-                            ),
-                    ),
-                  ],
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: listTestTile(test, index),
+                    );
+                  },
                 ),
-              ),
-            );
-          },
         ),
       ),
     );

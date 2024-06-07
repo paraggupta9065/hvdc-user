@@ -386,7 +386,7 @@ class BottomCartWidth extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "${(cartController.cart?.cart.tests ?? []).length} Tests Added",
+                              "${(((cartController.cart?.cart.tests ?? []).length) + ((cartController.cart?.cart.packages ?? []).length))} Tests Added",
                               style: kTextStyle.copyWith(
                                   fontSize: 12,
                                   color: kWhite,

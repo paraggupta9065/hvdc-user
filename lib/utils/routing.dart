@@ -20,6 +20,7 @@ import 'package:hvdc_user/screens/upload_prescription.dart';
 import 'package:hvdc_user/screens/upload_prescription_web.dart';
 import 'package:hvdc_user/utils/article.dart';
 import 'package:hvdc_user/utils/articles.dart';
+import 'package:hvdc_user/utils/recommondation.dart';
 import '../controllers/auth_controller.dart';
 import '../screens/cart/web_cart.dart';
 import '../screens/home/homepage.dart';
@@ -78,7 +79,7 @@ final getRoutes = [
       ),
       GetPage(
         name: '/notification',
-        page: () => const Notifications(),
+        page: () => Notifications(),
         middlewares: [WebLogoutMiddleware()],
       ),
       GetPage(
@@ -111,6 +112,11 @@ final getRoutes = [
         page: () => const PrescriptionList(),
         middlewares: [WebLogoutMiddleware()],
       ),
+      GetPage(
+        name: '/recommendation',
+        page: () => const Recommendation(),
+        middlewares: [WebLogoutMiddleware()],
+      ),
     ],
   ),
 ];
@@ -138,7 +144,7 @@ class WebLogoutMiddleware extends GetMiddleware {
     AuthController authController = Get.put(AuthController());
     bool isLogin = authController.isLogin();
 
-    if (kWeb && !isLogin) {
+    if (kIsWeb && !isLogin) {
       return const RouteSettings(name: '/sign-up');
     }
     return null;

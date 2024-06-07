@@ -5,6 +5,7 @@ import 'package:hvdc_user/utils/appBar.dart';
 import 'package:hvdc_user/utils/colors.dart';
 import 'package:hvdc_user/utils/img_name.dart';
 import 'package:hvdc_user/utils/style.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../../utils/loading.dart';
@@ -16,6 +17,11 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isLogin = authController.isLogin();
+    if (!isLogin) {
+      authController.logout();
+    }
+
     return Scaffold(
       appBar: KAppBar("Profile"),
       body: SingleChildScrollView(
@@ -41,7 +47,7 @@ class ProfilePage extends StatelessWidget {
                               child: Image(
                                 image: NetworkImage(
                                   authController.user?.profilePic ??
-                                      "https://www.belizeplanners.org/wp-content/uploads/2016/01/male-placeholder.jpg",
+                                      "https://devapi.hvdc.in/static/profile-placeholder.png",
                                 ),
                                 fit: BoxFit.cover,
                               ),
@@ -55,7 +61,7 @@ class ProfilePage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                authController.user?.name ?? "",
+                                authController.user?.name ?? "User",
                                 style: kTextStyle.copyWith(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w500,
@@ -84,7 +90,10 @@ class ProfilePage extends StatelessWidget {
               profileItemList("My Test Bookings", testBook, () {
                 Get.toNamed('/bookings');
               }),
-              profileItemList("Help Center", helpCenter, () {}),
+              profileItemList("Help Center", helpCenter, () {
+                launchUrl(Uri.parse(
+                    "https://web.whatsapp.com/send?phone=917065376565&text=Hello"));
+              }),
               const SizedBox(height: 40),
             ],
           ),

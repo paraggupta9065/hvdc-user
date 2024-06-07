@@ -8,6 +8,7 @@ import 'package:hvdc_user/controllers/cart_controller.dart';
 import 'package:hvdc_user/utils/card.dart';
 import 'package:hvdc_user/utils/responsive.dart';
 import 'package:hvdc_user/utils/style.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../controllers/homepage_controller.dart';
 import '../../models/category.dart';
@@ -894,12 +895,12 @@ class Banner extends StatelessWidget {
                 SizedBox(
                   width: kWidth(32),
                   child: Text(
-                    "family body checkup package now at ₹240".toUpperCase(),
+                    "HVDC FULL BODY CHECKUP At ₹299".toUpperCase(),
                     textAlign: TextAlign.justify,
                     style: kTextStyle.copyWith(
                       color: kText,
                       fontWeight: FontWeight.w700,
-                      fontSize: 48,
+                      fontSize: 40,
                     ),
                   ),
                 ),
@@ -1097,7 +1098,9 @@ Padding callUs() {
                   ),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                launchUrl(Uri.parse("tel:+1-212-555-1234"));
+              },
               child: SizedBox(
                 height: kMobile ? 30 : 40,
                 child: Center(

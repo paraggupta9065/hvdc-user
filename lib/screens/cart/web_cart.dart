@@ -453,6 +453,7 @@ class _CartState extends State<WebCart> {
         ],
       ),
       child: TextField(
+        controller: cartController.codeTextEditingController,
         style: kTextStyle.copyWith(
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -461,7 +462,9 @@ class _CartState extends State<WebCart> {
           suffixIcon: Padding(
             padding: const EdgeInsets.only(right: 12),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                cartController.promocodeApply();
+              },
               child: Text(
                 'Apply',
                 style: kTextStyle.copyWith(
@@ -469,7 +472,7 @@ class _CartState extends State<WebCart> {
               ),
             ),
           ),
-          labelText: 'Enter your coupon',
+          labelText: 'Enter your promo',
           labelStyle: kTextStyle.copyWith(
             fontSize: 16,
             fontWeight: FontWeight.w400,
@@ -724,7 +727,8 @@ class _CartState extends State<WebCart> {
     );
   }
 
-  void modelSheetPatient() {
+  void modelSheetPatient() async {
+    await Future.delayed(const Duration(microseconds: 10));
     Get.bottomSheet(
       Container(
         decoration: const BoxDecoration(
@@ -770,40 +774,42 @@ class _CartState extends State<WebCart> {
                                 ),
                               ),
                               height: 40,
-                              width: kWidth(25),
+                              width: kWeb ? kWidth(10) : kWidth(25),
                             ),
                           ),
                           InkWell(
                             onTap: () =>
                                 patientController.selectedGender.value = 1,
                             child: kContainer(
-                                color: selected == 1 ? kGreen : kWhite,
-                                child: Center(
-                                  child: Text(
-                                    "Female",
-                                    style: kTextStyle.copyWith(
-                                      color: selected == 1 ? kWhite : kText,
-                                    ),
+                              color: selected == 1 ? kGreen : kWhite,
+                              child: Center(
+                                child: Text(
+                                  "Female",
+                                  style: kTextStyle.copyWith(
+                                    color: selected == 1 ? kWhite : kText,
                                   ),
                                 ),
-                                height: 40,
-                                width: kWidth(25)),
+                              ),
+                              height: 40,
+                              width: kWeb ? kWidth(10) : kWidth(25),
+                            ),
                           ),
                           InkWell(
                             onTap: () =>
                                 patientController.selectedGender.value = 2,
                             child: kContainer(
-                                color: selected == 2 ? kGreen : kWhite,
-                                child: Center(
-                                  child: Text(
-                                    "Others",
-                                    style: kTextStyle.copyWith(
-                                      color: selected == 2 ? kWhite : kText,
-                                    ),
+                              color: selected == 2 ? kGreen : kWhite,
+                              child: Center(
+                                child: Text(
+                                  "Others",
+                                  style: kTextStyle.copyWith(
+                                    color: selected == 2 ? kWhite : kText,
                                   ),
                                 ),
-                                height: 40,
-                                width: kWidth(25)),
+                              ),
+                              height: 40,
+                              width: kWeb ? kWidth(10) : kWidth(25),
+                            ),
                           ),
                         ],
                       ),
@@ -839,9 +845,11 @@ class _CartState extends State<WebCart> {
     );
   }
 
-  void modelSheetAddress() {
-    Get.bottomSheet(
-      Container(
+  void modelSheetAddress() async {
+    await Future.delayed(const Duration(microseconds: 10));
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
         decoration: const BoxDecoration(
           color: kWhite,
           borderRadius: BorderRadius.only(

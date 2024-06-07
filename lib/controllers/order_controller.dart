@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:html' as html;
+import 'dart:html';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_saver/file_saver.dart';
@@ -14,6 +16,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../utils/request_handler.dart';
 import '../utils/toast.dart';
@@ -65,6 +68,7 @@ class OrderController extends GetxController {
           'assets/animation/sucess.json',
           onLoaded: (p0) {
             Future.delayed(const Duration(seconds: 2)).then((value) {
+              Get.offAllNamed("/home");
               // while (true) {
               //   // if (Getn.routerDelegate.currentConfiguration.matches.last
               //   //         .route !=
@@ -118,37 +122,36 @@ class OrderController extends GetxController {
         },
       );
       dynamic rawOrders = response['results'];
-      orders = List.generate(
-          rawOrders.length, (index) => Order.fromJson(rawOrders[index]));
+
+      orders = List.generate(rawOrders.length, (index) {
+        Order order = Order.fromJson(rawOrders[index]);
+        return order;
+      });
     } finally {
       isLoadingOrders.value = false;
     }
   }
 
-  download({required String url}) async {
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.storage,
-      Permission.manageExternalStorage,
-    ].request();
-
-    var storage = statuses[Permission.storage];
-    var manageExternalStorage = statuses[Permission.manageExternalStorage];
-
-    if (storage!.isDenied || manageExternalStorage!.isDenied) {
-      kShowSnackbar(title: "", message: "Please grant permission!");
-    } else {
-      final response = await Dio().get(
-        url,
-        options: Options(responseType: ResponseType.bytes),
-      );
-      Directory? directory = Directory('/storage/emulated/0/Download');
-      if (!await directory.exists()) {
-        directory = await getExternalStorageDirectory();
+  downloadWeb({required String url}) async {
+    try {
+      if (!(url.contains("https"))) {
+        url = url.replaceAll("http", "https");
       }
-      File file = File(directory?.path ?? '/');
-      await file.writeAsBytes(response.data);
-      print('File downloaded to: $file');
-      print(file);
+
+      print("dlonload done");
+      print("url");
+      List splitList = url.split(".");
+      String name =
+          ("${DateTime.timestamp()}." + (splitList[splitList.length - 1]));
+      await FileSaver.instance.saveFile(
+        name: name,
+        link: LinkDetails(
+          link: url,
+          method: "GET",
+        ),
+      );
+    } catch (e) {
+      print(e);
     }
   }
 }

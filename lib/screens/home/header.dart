@@ -60,6 +60,8 @@ class Header extends StatelessWidget {
                                   color: kText, fontSize: 15)),
                           Text("+91 706537 6565",
                               style: kTextStyle.copyWith(color: kText)),
+                          Text("+91 706538 6565",
+                              style: kTextStyle.copyWith(color: kText)),
                         ],
                       ),
                     ),
@@ -337,13 +339,15 @@ class Header extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              launchUrl(Uri.parse("https://hvdc.in/blog/"));
+                              launchUrl(
+                                  Uri.parse("https://blog.hvdc.in/blog/"));
                             },
                             child: const NavbarItem('Articles'),
                           ),
                           InkWell(
                             onTap: () {
-                              launchUrl(Uri.parse("https://hvdc.in/about/"));
+                              launchUrl(
+                                  Uri.parse("https://blog.hvdc.in/about/"));
                             },
                             child: const NavbarItem('About Us'),
                           ),
@@ -383,6 +387,7 @@ class Header extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: 20),
                 SizedBox(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -408,7 +413,7 @@ class Header extends StatelessWidget {
                                       image: DecorationImage(
                                         image: NetworkImage(
                                           authController.user?.profilePic ??
-                                              "https://www.belizeplanners.org/wp-content/uploads/2016/01/male-placeholder.jpg",
+                                              "https://devapi.hvdc.in/static/profile-placeholder.png",
                                         ),
                                         fit: BoxFit.cover,
                                       ),
@@ -426,7 +431,7 @@ class Header extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Hello ${authController.user?.name}',
+                                        'Hello ${authController.user?.name ?? "User"}',
                                         style: const TextStyle(
                                           color: Color(0x99666666),
                                           fontSize: 16,

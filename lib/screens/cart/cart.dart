@@ -106,7 +106,7 @@ class _CartState extends State<Cart> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(12)))),
                               ),
-                              onPressed: () => {Get.back()},
+                              onPressed: () => {Get.offAllNamed("/home")},
                               child: SizedBox(
                                 height: 40,
                                 width: double.maxFinite,
@@ -311,9 +311,7 @@ class _CartState extends State<Cart> {
     return Container(
       decoration: BoxDecoration(
         color: kWhite,
-        borderRadius: BorderRadius.circular(
-            8.0), // Optional: Add border radius for rounded corners
-
+        borderRadius: BorderRadius.circular(8.0),
         boxShadow: [
           BoxShadow(
             color: const Color.fromARGB(255, 225, 224, 224)
@@ -333,7 +331,9 @@ class _CartState extends State<Cart> {
           suffixIcon: Padding(
             padding: const EdgeInsets.only(right: 12),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                cartController.promocodeApply();
+              },
               child: Text(
                 'Apply',
                 style: kTextStyle.copyWith(
@@ -346,7 +346,7 @@ class _CartState extends State<Cart> {
             minHeight: 24, // Minimum height of the suffix icon
           ),
           // contentPadding:
-          hintText: ' Enter your coupon',
+          hintText: ' Enter your promo',
           hintStyle: kTextStyle.copyWith(
             fontSize: 16,
             fontWeight: FontWeight.w400,
@@ -476,12 +476,18 @@ class _CartState extends State<Cart> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    test.name,
-                    style: kTextStyle.copyWith(
+                  SizedBox(
+                    width: kWidth(60),
+                    child: Text(
+                      test.name,
+                      maxLines: 1,
+                      style: kTextStyle.copyWith(
+                        overflow: TextOverflow.fade,
                         fontSize: 16,
                         color: kText,
-                        fontWeight: FontWeight.w400),
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ),
                   Text(
                     "Essentials",

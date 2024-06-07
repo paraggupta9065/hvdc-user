@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:wordpress_client/wordpress_client.dart';
 
@@ -6,6 +8,7 @@ import '../utils/request_handler.dart';
 import '../utils/toast.dart';
 import '../utils/urls.dart';
 import 'auth_controller.dart';
+import 'package:http/http.dart' as http;
 
 class ArticleController extends GetxController {
   final client = WordpressClient.initialize(baseUrl: wordpressUrl);
@@ -25,15 +28,14 @@ class ArticleController extends GetxController {
 
   Future<void> getCategories() async {
     try {
-      final request = ListCategoryRequest(
-        page: 1,
-        perPage: 5,
-      );
+      String endpoint = "/categories?per_page=5&page=1";
 
-      WordpressResponse<List<Category>> response =
-          await client.categories.list(request);
+      http.Response response =
+          await http.get(Uri.parse('$wordpressUrl$endpoint'));
 
-      categories = response.asSuccess().data;
+      dynamic data = jsonDecode(response.body);
+      categories =
+          List.generate(data.length, (index) => Category.fromJson(data[index]));
     } catch (e) {
       kShowSnackbar(title: "Error !", message: e.toString());
       rethrow;
@@ -47,15 +49,13 @@ class ArticleController extends GetxController {
     try {
       isLoading.value = true;
 
-      final request = ListPostRequest(
-        page: 1,
-        perPage: 10,
-        categories: [categories[selectedIndex.value].id],
-      );
+      String endpoint = "/posts?per_page=5&page=1";
 
-      WordpressResponse<List<Post>> response = await client.posts.list(request);
+      http.Response response =
+          await http.get(Uri.parse('$wordpressUrl$endpoint'));
 
-      posts = response.asSuccess().data;
+      dynamic data = jsonDecode(response.body);
+      posts = List.generate(data.length, (index) => Post.fromJson(data[index]));
       trandingPosts = posts;
     } catch (e) {
       kShowSnackbar(title: "Error !", message: e.toString());
@@ -67,13 +67,17 @@ class ArticleController extends GetxController {
 
   Future<Post> getPost({required int id}) async {
     try {
-      final request = ListPostRequest(
-        page: 1,
-        include: [id],
-        perPage: 10,
-      );
-      WordpressResponse<List<Post>> response = await client.posts.list(request);
-      return response.asSuccess().data[0];
+      isLoading.value = true;
+
+      String endpoint = "/posts?per_page=5&page=1&include=$id";
+
+      http.Response response =
+          await http.get(Uri.parse('$wordpressUrl$endpoint'));
+
+      dynamic data = jsonDecode(response.body);
+      posts = List.generate(data.length, (index) => Post.fromJson(data[index]));
+
+      return posts[0];
     } catch (e) {
       kShowSnackbar(title: "Error !", message: e.toString());
       rethrow;

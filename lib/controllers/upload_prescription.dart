@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/instance_manager.dart';
@@ -30,9 +31,9 @@ class UploadPrescriptionC extends GetxController {
   //   }
   // }
 
-  pickImageGallary() async {
+  pickImageAndUpload({required ImageSource source}) async {
     try {
-      image = await picker.pickImage(source: ImageSource.camera);
+      image = await picker.pickImage(source: source);
       if (image == null) {
         kShowSnackbar(title: "", message: "Please select image !");
         return;
@@ -41,22 +42,16 @@ class UploadPrescriptionC extends GetxController {
       String url = mainUrl + endpoint;
 
       String? token = getToken();
-      var formData;
-      if (!kWeb) {
-        var formData = FormData.fromMap({
-          'prescription':
-              await MultipartFile.fromFile(image!.path, filename: image!.name),
-        });
-      } else {
-        XFile file = XFile(image!.path);
-        var formData = FormData.fromMap({
-          'prescription': MultipartFile.fromBytes(
-            await file.readAsBytes(),
-            filename: image!.name,
-          ),
-        });
+      XFile file = XFile(image!.path);
+      var formData = FormData.fromMap({
+        'prescription': MultipartFile.fromBytes(
+          await file.readAsBytes(),
+          filename: image!.name,
+        ),
+      });
+      if (kMobile) {
+        Get.back();
       }
-
       final response = await Dio().post(url,
           data: formData,
           options: Options(
@@ -67,9 +62,8 @@ class UploadPrescriptionC extends GetxController {
           ));
 
       if (response.statusCode == 201) {
-        Get.back();
-        Get.back();
         kShowSnackbar(title: "", message: response.data['detail']);
+        Future.delayed(const Duration(seconds: 2)).then((value) => Get.back());
       }
     } on DioException catch (e) {
       kShowSnackbar(title: "", message: e.response?.data["detail"]);
